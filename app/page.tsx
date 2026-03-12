@@ -11,7 +11,7 @@ export default function HomePage() {
     <main
       className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden"
       style={{
-        background: 'radial-gradient(125% 125% at 50% 0%, #0f172a 0%, #1e1b4b 30%, #312e81 55%, #4c1d95 70%, #6d28d9 85%, #7c3aed 100%)',
+        background: 'radial-gradient(125% 125% at 50% 100%, #713f12 0%, #15803d 25%, #166534 45%, #14532d 65%, #052e16 85%, #020d07 100%)',
       }}
     >
       <div className="w-full max-w-[500px] space-y-4 animate-fade-in">

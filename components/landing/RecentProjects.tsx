@@ -77,22 +77,22 @@ export default function RecentProjects() {
           onClick={() => router.push(`/map/${p.id}`)}
           className="w-full text-left rounded-2xl px-4 py-3.5 transition-all duration-150 cursor-pointer border"
           style={{
-            background: 'rgba(31,32,35,0.7)',
-            borderColor: 'rgba(255,255,255,0.12)',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            background: 'rgba(255,255,255,0.55)',
+            borderColor: 'rgba(0,0,0,0.08)',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
             backdropFilter: 'blur(16px)',
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.22)';
-            (e.currentTarget as HTMLElement).style.background = 'rgba(31,32,35,0.85)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.15)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.75)';
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)';
-            (e.currentTarget as HTMLElement).style.background = 'rgba(31,32,35,0.7)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.08)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.55)';
           }}
         >
           <div className="flex items-start justify-between gap-3">
-            <p className="text-sm leading-snug line-clamp-2 flex-1 text-[#E5E7EB]">
+            <p className="text-sm leading-snug line-clamp-2 flex-1 text-[#1f2937]">
               {p.prompt}
             </p>
             <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
@@ -109,14 +109,14 @@ export default function RecentProjects() {
                 onClick={(e) => handleDelete(e, p.id)}
                 disabled={deletingId === p.id}
                 className="w-5 h-5 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer disabled:opacity-40"
-                style={{ background: 'rgba(255,255,255,0.07)', color: '#6B7280' }}
+                style={{ background: 'rgba(0,0,0,0.05)', color: '#9CA3AF' }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(248,113,113,0.15)';
-                  (e.currentTarget as HTMLElement).style.color = '#f87171';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.1)';
+                  (e.currentTarget as HTMLElement).style.color = '#ef4444';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
-                  (e.currentTarget as HTMLElement).style.color = '#6B7280';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.05)';
+                  (e.currentTarget as HTMLElement).style.color = '#9CA3AF';
                 }}
               >
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -125,7 +125,7 @@ export default function RecentProjects() {
               </button>
             </div>
           </div>
-          <p className="text-[11px] mt-1.5 text-[#6B7280]">
+          <p className="text-[11px] mt-1.5 text-[#9CA3AF]">
             {new Date(p.created_at).toLocaleDateString('ko-KR', {
               year: 'numeric', month: 'short', day: 'numeric',
             })}

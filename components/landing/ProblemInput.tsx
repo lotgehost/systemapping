@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowUp, Paperclip, X } from 'lucide-react';
+import RecentProjects from './RecentProjects';
 
 interface UploadedFile {
   id: string;
@@ -18,6 +19,7 @@ export default function ProblemInput() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -87,13 +89,14 @@ export default function ProblemInput() {
   const hasContent = prompt.trim() !== '' || uploadedFiles.length > 0;
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-3">
+      {/* Input box */}
       <div
         className="rounded-3xl transition-all duration-300"
         style={{
-          background: isDragging ? 'rgba(20,21,24,0.92)' : 'rgba(31,32,35,0.88)',
-          border: isDragging ? '1px solid rgba(96,165,250,0.5)' : '1px solid rgba(255,255,255,0.13)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
+          background: isDragging ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.6)',
+          border: isDragging ? '1px solid rgba(0,0,0,0.2)' : '1px solid rgba(0,0,0,0.1)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)',
           backdropFilter: 'blur(20px)',
         }}
         onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
@@ -115,18 +118,18 @@ export default function ProblemInput() {
                 key={f.id}
                 className="flex items-center gap-1.5 rounded-xl px-2.5 py-1 text-xs"
                 style={{
-                  background: f.status === 'error' ? 'rgba(248,113,113,0.12)' : 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: f.status === 'error' ? '#f87171' : '#D1D5DB',
+                  background: f.status === 'error' ? 'rgba(239,68,68,0.1)' : 'rgba(0,0,0,0.06)',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  color: f.status === 'error' ? '#dc2626' : '#374151',
                 }}
               >
-                {f.status === 'uploading' && <span className="w-2.5 h-2.5 rounded-full border border-[#9CA3AF] border-t-transparent animate-spin flex-shrink-0" />}
-                {f.status === 'ready' && <span className="w-1.5 h-1.5 rounded-full bg-[#34d399] flex-shrink-0" />}
-                {f.status === 'error' && <span className="w-1.5 h-1.5 rounded-full bg-[#f87171] flex-shrink-0" />}
+                {f.status === 'uploading' && <span className="w-2.5 h-2.5 rounded-full border border-[#6B7280] border-t-transparent animate-spin flex-shrink-0" />}
+                {f.status === 'ready' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />}
+                {f.status === 'error' && <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />}
                 <span className="max-w-[120px] truncate">{f.name}</span>
                 <button
                   onClick={() => setUploadedFiles((prev) => prev.filter((x) => x.id !== f.id))}
-                  className="ml-0.5 text-[#6B7280] hover:text-[#D1D5DB] transition-colors cursor-pointer"
+                  className="ml-0.5 text-[#9CA3AF] hover:text-[#374151] transition-colors cursor-pointer"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -141,51 +144,72 @@ export default function ProblemInput() {
           value={prompt}
           onChange={handleTextareaChange}
           onKeyDown={handleKeyDown}
-          placeholder="어떤 시스템을 이해하고 싶으신가요?"
+          placeholder=""
           rows={1}
           disabled={loading}
-          className="w-full bg-transparent px-4 py-3.5 text-sm text-gray-100 placeholder:text-[#6B7280] outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
+          className="w-full bg-transparent px-4 py-3.5 text-sm text-gray-800 outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
           style={{ minHeight: '52px', maxHeight: '160px' }}
         />
 
         {/* Bottom actions */}
         <div className="flex items-center justify-between px-3 pb-3">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={loading}
-            className="flex items-center gap-1.5 h-8 px-2 rounded-full text-xs text-[#9CA3AF] hover:text-[#D1D5DB] hover:bg-white/5 transition-all duration-150 cursor-pointer disabled:opacity-40"
-          >
-            <Paperclip className="w-4 h-4" />
-            <span>PDF</span>
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            className="hidden"
-            accept=".pdf,application/pdf"
-            multiple
-            onChange={(e) => {
-              if (e.target.files?.length) { handleFilesAdded(Array.from(e.target.files)); e.target.value = ''; }
-            }}
-          />
+          <div className="flex items-center gap-0.5">
+            {/* PDF attach */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading}
+              className="flex items-center gap-1.5 h-8 px-2 rounded-full text-xs text-[#9CA3AF] hover:text-[#374151] hover:bg-black/5 transition-all duration-150 cursor-pointer disabled:opacity-40"
+              title="Attach PDF"
+            >
+              <Paperclip className="w-4 h-4" />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              accept=".pdf,application/pdf"
+              multiple
+              onChange={(e) => {
+                if (e.target.files?.length) { handleFilesAdded(Array.from(e.target.files)); e.target.value = ''; }
+              }}
+            />
 
+            {/* My projects */}
+            <button
+              onClick={() => setShowProjects((v) => !v)}
+              className="h-8 w-8 flex items-center justify-center rounded-full text-base hover:bg-black/5 transition-all duration-150 cursor-pointer"
+              title="My Projects"
+              style={{ opacity: showProjects ? 1 : 0.5 }}
+            >
+              🗂️
+            </button>
+          </div>
+
+          {/* Send */}
           <button
             onClick={handleSubmit}
             disabled={loading || !hasContent}
             className="h-8 w-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
             style={{
-              background: hasContent && !loading ? '#ffffff' : 'rgba(255,255,255,0.1)',
+              background: hasContent && !loading ? 'rgba(15,15,20,0.85)' : 'rgba(0,0,0,0.1)',
             }}
           >
             {loading
               ? <span className="w-3.5 h-3.5 rounded-full border border-[#9CA3AF] border-t-transparent animate-spin" />
-              : <ArrowUp className="w-4 h-4" style={{ color: hasContent ? '#1F2023' : '#6B7280' }} />
+              : <ArrowUp className="w-4 h-4" style={{ color: hasContent ? '#ffffff' : '#9CA3AF' }} />
             }
           </button>
         </div>
       </div>
 
-      {error && <p className="text-xs text-red-400 mt-2 px-1">{error}</p>}
+      {/* My Projects panel */}
+      {showProjects && (
+        <div className="animate-slide-up">
+          <RecentProjects />
+        </div>
+      )}
+
+      {error && <p className="text-xs text-red-500 px-1">{error}</p>}
     </div>
   );
 }

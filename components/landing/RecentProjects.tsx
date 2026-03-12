@@ -77,17 +77,18 @@ export default function RecentProjects() {
           onClick={() => router.push(`/map/${p.id}`)}
           className="w-full text-left rounded-2xl px-4 py-3.5 transition-all duration-150 cursor-pointer border"
           style={{
-            background: 'rgba(255,255,255,0.04)',
-            borderColor: 'rgba(255,255,255,0.08)',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+            background: 'rgba(31,32,35,0.7)',
+            borderColor: 'rgba(255,255,255,0.12)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            backdropFilter: 'blur(16px)',
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
-            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.22)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(31,32,35,0.85)';
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
-            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(31,32,35,0.7)';
           }}
         >
           <div className="flex items-start justify-between gap-3">

@@ -29,8 +29,7 @@ export default function LabeledEdge({
   const polarity = data?.polarity ?? '+';
   const isPositive = polarity === '+';
 
-  // Edge color: thin, dark, subtle
-  const strokeColor = selected ? '#1d4ed8' : 'rgba(30,30,30,0.35)';
+  const strokeColor = selected ? '#1d4ed8' : 'rgba(30,30,30,0.6)';
 
   // Polarity sign positioned near the arrowhead (80% toward target)
   const px = sourceX * 0.25 + targetX * 0.75;
@@ -43,7 +42,7 @@ export default function LabeledEdge({
         path={edgePath}
         style={{
           stroke: strokeColor,
-          strokeWidth: selected ? 1.5 : 1,
+          strokeWidth: selected ? 2 : 1.2,
           fill: 'none',
         }}
         markerEnd="url(#cld-arrow)"

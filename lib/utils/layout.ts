@@ -50,8 +50,9 @@ export function applyDagreLayout<T extends Node>(nodes: T[], edges: Edge[]): T[]
 
   const positionIndex = new Map(order.map((id, i) => [id, i]));
 
-  // Radius scales with node count to keep good spacing
-  const R = Math.max(260, n * 52);
+  // Radius: ~55px gap between adjacent nodes on the circle
+  const circumference = n * 130;
+  const R = circumference / (2 * Math.PI);
   const CX = R;
   const CY = R;
 

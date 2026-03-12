@@ -64,8 +64,8 @@ CRITICAL — Avoid linear maps (this is the most important instruction):
 - Think of the map as a SPIDER WEB: every part is connected to multiple other parts, not a CHAIN where you can trace a single line from start to finish.
 
 Quantity rules:
-- Generate 10-13 nodes total
-- Generate 18-24 edges total — this density is what creates the web-like non-linear feel
+- Generate exactly 10-12 nodes total (no more — stay within token budget)
+- Generate 16-22 edges total — this density is what creates the web-like non-linear feel
 - Use 2-3 lever nodes and 1-2 exogenous nodes max; the rest are variable nodes
 - All node labels must be nouns/noun phrases representing measurable or observable quantities (NOT actors: instead of "정부" use "정부 규제 강도"; instead of "기업" use "기업 투자 규모")
 - EVERY node must have at least 1 source entry — never leave sources as empty array []

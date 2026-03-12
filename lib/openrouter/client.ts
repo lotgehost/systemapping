@@ -5,7 +5,10 @@ interface ChatMessage {
   content: string;
 }
 
-export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
+export async function chatCompletion(
+  messages: ChatMessage[],
+  maxTokens = 800
+): Promise<string> {
   const res = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
     method: 'POST',
     headers: {
@@ -17,7 +20,7 @@ export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
     body: JSON.stringify({
       model: 'anthropic/claude-3.5-haiku',
       messages,
-      max_tokens: 5000,
+      max_tokens: maxTokens,
       temperature: 0.3,
     }),
     signal: AbortSignal.timeout(90_000),

@@ -59,7 +59,7 @@ export async function POST(
         const rawResponse = await chatCompletion([
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: userPrompt },
-        ]);
+        ], 3500);
 
         const { nodes, edges } = parseAIResponse(rawResponse);
 

@@ -12,7 +12,8 @@ export interface MapNodeData extends Record<string, unknown> {
 }
 
 export interface MapEdgeData extends Record<string, unknown> {
-  relation_type: string;
+  polarity: '+' | '-';
+  loop_label?: string;
   description: string;
   sources: Source[];
 }
@@ -80,7 +81,8 @@ export const useMapStore = create<MapStore>((set, get) => ({
       target: e.target,
       type: 'labeled',
       data: {
-        relation_type: e.relation_type,
+        polarity: e.polarity,
+        loop_label: e.loop_label,
         description: e.description,
         sources: e.sources,
       },
@@ -103,7 +105,7 @@ export const useMapStore = create<MapStore>((set, get) => ({
       sourceHandle: connection.sourceHandle,
       targetHandle: connection.targetHandle,
       type: 'labeled',
-      data: { relation_type: '관련', description: '', sources: [] },
+      data: { polarity: '+' as const, description: '', sources: [] },
     };
     set((state) => ({ edges: addEdge(newEdge, state.edges) as MapEdge[] }));
   },

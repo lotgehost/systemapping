@@ -5,19 +5,15 @@ import SourceBadge from './SourceBadge';
 import GlassInput from '@/components/ui/GlassInput';
 
 const NODE_TYPE_LABELS: Record<string, string> = {
-  actor: '행위자',
-  structural_factor: '구조 요인',
-  outcome: '결과',
-  feedback_loop: '피드백 루프',
-  intervention: '개입 지점',
+  variable:  '변수',
+  exogenous: '외생변수',
+  lever:     '정책 레버',
 };
 
 const NODE_TYPE_DOTS: Record<string, string> = {
-  actor: 'rgba(255,255,255,0.9)',
-  structural_factor: 'rgba(200,200,200,0.7)',
-  outcome: 'rgba(160,160,160,0.6)',
-  feedback_loop: 'rgba(120,120,120,0.6)',
-  intervention: 'rgba(255,255,255,0.35)',
+  variable:  '#2563eb',
+  exogenous: '#7c3aed',
+  lever:     '#059669',
 };
 
 export default function DetailPanel() {
@@ -103,11 +99,35 @@ export default function DetailPanel() {
 
         {selectedEdge && (
           <>
-            <Field label="관계 유형">
+            <Field label="인과 극성">
+              <div className="flex gap-2">
+                {(['+', '-'] as const).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => updateEdgeData(selectedEdge.id, { polarity: p })}
+                    className="flex-1 py-1.5 rounded-lg text-sm font-bold transition-all duration-150 cursor-pointer border"
+                    style={{
+                      background: selectedEdge.data?.polarity === p
+                        ? (p === '+' ? '#dbeafe' : '#fee2e2')
+                        : 'transparent',
+                      color: p === '+' ? '#1d4ed8' : '#b91c1c',
+                      borderColor: selectedEdge.data?.polarity === p
+                        ? (p === '+' ? '#93c5fd' : '#fca5a5')
+                        : 'var(--glass-border)',
+                    }}
+                  >
+                    {p === '+' ? '+ 양(+)의 인과' : '− 음(−)의 인과'}
+                  </button>
+                ))}
+              </div>
+            </Field>
+
+            <Field label="피드백 루프 레이블 (선택)">
               <GlassInput
-                value={selectedEdge.data?.relation_type ?? ''}
+                placeholder="예: R1, B1, R2"
+                value={selectedEdge.data?.loop_label ?? ''}
                 onChange={(e) =>
-                  updateEdgeData(selectedEdge.id, { relation_type: (e.target as HTMLInputElement).value })
+                  updateEdgeData(selectedEdge.id, { loop_label: (e.target as HTMLInputElement).value || undefined })
                 }
               />
             </Field>

@@ -1,9 +1,4 @@
-export type NodeType =
-  | 'actor'
-  | 'structural_factor'
-  | 'outcome'
-  | 'feedback_loop'
-  | 'intervention';
+export type NodeType = 'variable' | 'lever' | 'exogenous';
 
 export type SourceType = 'web' | 'upload' | 'user' | 'ai_inference';
 
@@ -27,7 +22,8 @@ export interface SystemEdge {
   id: string;
   source: string;
   target: string;
-  relation_type: string;
+  polarity: '+' | '-';
+  loop_label?: string;
   description: string;
   sources: Source[];
 }

@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #080808;
-  --color-foreground: #f0f0f0;
+  --color-background: #f5f5f5;
+  --color-foreground: #111111;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
   /* Core backgrounds */
-  --bg-primary: #080808;
-  --bg-secondary: #0f0f0f;
-  --bg-tertiary: #141414;
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #eeeeee;
+  --bg-tertiary: #e6e6e6;
 
   /* Glass layers */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-bg-strong: rgba(255, 255, 255, 0.07);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-strong: rgba(255, 255, 255, 0.14);
-  --glass-hover: rgba(255, 255, 255, 0.06);
-  --glass-active: rgba(255, 255, 255, 0.10);
-  --glass-highlight: rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-strong: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-strong: rgba(0, 0, 0, 0.13);
+  --glass-hover: rgba(0, 0, 0, 0.04);
+  --glass-active: rgba(0, 0, 0, 0.07);
+  --glass-highlight: rgba(0, 0, 0, 0.02);
 
   /* Text scale */
-  --text-primary: #efefef;
-  --text-secondary: #888888;
-  --text-muted: #444444;
-  --text-faint: #2a2a2a;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #999999;
+  --text-faint: #cccccc;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
 
   /* Panel dimensions */
   --panel-left: 260px;
@@ -61,16 +61,18 @@ body {
 
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   border: 1px solid var(--glass-border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
 .glass-strong {
   background: var(--glass-bg-strong);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid var(--glass-border-strong);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .glass-hover:hover {
@@ -149,11 +151,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* ─── React Flow overrides ───────────────────────────────────── */
@@ -203,13 +205,13 @@ body {
 }
 
 .react-flow__edge-path {
-  stroke: rgba(255, 255, 255, 0.15) !important;
+  stroke: rgba(0, 0, 0, 0.18) !important;
   stroke-width: 1.5 !important;
 }
 
 .react-flow__edge.selected .react-flow__edge-path,
 .react-flow__edge:hover .react-flow__edge-path {
-  stroke: rgba(255, 255, 255, 0.35) !important;
+  stroke: rgba(0, 0, 0, 0.4) !important;
 }
 
 .react-flow__handle {
@@ -223,6 +225,6 @@ body {
 /* ─── Focus ring ─────────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 1.5px solid rgba(255, 255, 255, 0.3);
+  outline: 1.5px solid rgba(0, 0, 0, 0.2);
   outline-offset: 2px;
 }

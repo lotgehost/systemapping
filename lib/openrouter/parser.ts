@@ -12,7 +12,7 @@ const SourceSchema = z.object({
 const NodeSchema = z.object({
   id: z.string(),
   label: z.string(),
-  type: z.enum(['actor', 'structural_factor', 'outcome', 'feedback_loop', 'intervention']),
+  type: z.enum(['variable', 'lever', 'exogenous']),
   description: z.string(),
   sources: z.array(SourceSchema).default([]),
 });
@@ -21,7 +21,8 @@ const EdgeSchema = z.object({
   id: z.string(),
   source: z.string(),
   target: z.string(),
-  relation_type: z.string(),
+  polarity: z.enum(['+', '-']),
+  loop_label: z.string().optional(),
   description: z.string(),
   sources: z.array(SourceSchema).default([]),
 });

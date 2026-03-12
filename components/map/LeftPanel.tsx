@@ -8,11 +8,9 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { NodeType } from '@/types';
 
 const NODE_TYPES: { value: NodeType; label: string; dot: string }[] = [
-  { value: 'actor',             label: '행위자',    dot: 'rgba(255,255,255,0.9)' },
-  { value: 'structural_factor', label: '구조 요인', dot: 'rgba(200,200,200,0.7)' },
-  { value: 'outcome',           label: '결과',      dot: 'rgba(160,160,160,0.6)' },
-  { value: 'feedback_loop',     label: '피드백',    dot: 'rgba(120,120,120,0.6)' },
-  { value: 'intervention',      label: '개입',      dot: 'rgba(255,255,255,0.35)' },
+  { value: 'variable',  label: '변수',     dot: '#2563eb' },
+  { value: 'exogenous', label: '외생변수', dot: '#7c3aed' },
+  { value: 'lever',     label: '정책 레버', dot: '#059669' },
 ];
 
 interface LeftPanelProps {
@@ -29,7 +27,7 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
 
   const [showAddNode, setShowAddNode] = useState(false);
   const [newNodeLabel, setNewNodeLabel] = useState('');
-  const [newNodeType, setNewNodeType] = useState<NodeType>('actor');
+  const [newNodeType, setNewNodeType] = useState<NodeType>('variable');
   const [copied, setCopied] = useState(false);
 
   const handleAddNode = () => {
@@ -57,18 +55,17 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
           <div
             className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+              background: 'rgba(0,0,0,0.05)',
+              border: '1px solid rgba(0,0,0,0.1)',
             }}
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <circle cx="3" cy="3" r="1.5" fill="rgba(255,255,255,0.8)" />
-              <circle cx="9" cy="3" r="1.5" fill="rgba(255,255,255,0.5)" />
-              <circle cx="6" cy="9" r="1.5" fill="rgba(255,255,255,0.6)" />
-              <line x1="3" y1="3" x2="9" y2="3" stroke="rgba(255,255,255,0.3)" strokeWidth="0.75" />
-              <line x1="3" y1="3" x2="6" y2="9" stroke="rgba(255,255,255,0.3)" strokeWidth="0.75" />
-              <line x1="9" y1="3" x2="6" y2="9" stroke="rgba(255,255,255,0.3)" strokeWidth="0.75" />
+              <circle cx="3" cy="3" r="1.5" fill="#2563eb" />
+              <circle cx="9" cy="3" r="1.5" fill="#7c3aed" />
+              <circle cx="6" cy="9" r="1.5" fill="#059669" />
+              <line x1="3" y1="3" x2="9" y2="3" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
+              <line x1="3" y1="3" x2="6" y2="9" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
+              <line x1="9" y1="3" x2="6" y2="9" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
             </svg>
           </div>
           <span className="text-xs font-semibold tracking-widest uppercase text-[var(--text-muted)]">
@@ -102,8 +99,8 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
           <div
             className="rounded-lg px-3 py-2.5 flex items-center gap-2.5 animate-fade-in"
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'rgba(0,0,0,0.03)',
+              border: '1px solid rgba(0,0,0,0.06)',
             }}
           >
             <LoadingSpinner size={13} />
@@ -159,8 +156,8 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
                       onClick={() => setNewNodeType(t.value)}
                       className={`flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-md transition-all duration-150 cursor-pointer ${
                         newNodeType === t.value
-                          ? 'bg-white/10 text-[var(--text-primary)] border border-white/15'
-                          : 'text-[var(--text-muted)] border border-transparent hover:text-[var(--text-secondary)] hover:bg-white/5'
+                          ? 'bg-black/8 text-[var(--text-primary)] border border-black/12'
+                          : 'text-[var(--text-muted)] border border-transparent hover:text-[var(--text-secondary)] hover:bg-black/4'
                       }`}
                     >
                       <span

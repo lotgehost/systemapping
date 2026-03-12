@@ -77,6 +77,11 @@ function LoopLabelOverlay() {
         const px = x * zoom + vpX;
         const py = y * zoom + vpY;
         const color = isReinforcing ? '#dc2626' : '#059669';
+        const bg = isReinforcing ? 'rgba(220,38,38,0.07)' : 'rgba(5,150,105,0.07)';
+        // Reinforcing: clockwise arrow ↻, Balancing: counter-clockwise ↺
+        const arcPath = isReinforcing
+          ? 'M 28,14 A 14,14 0 1,1 14,28 M 14,28 L 10,22 M 14,28 L 20,24'
+          : 'M 14,14 A 14,14 0 1,0 28,28 M 28,28 L 32,22 M 28,28 L 22,24';
         return (
           <div
             key={label}
@@ -87,23 +92,34 @@ function LoopLabelOverlay() {
               transform: 'translate(-50%, -50%)',
               pointerEvents: 'none',
               zIndex: 5,
-              width: 46,
-              height: 46,
-              borderRadius: '50%',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              background: isReinforcing ? 'rgba(220,38,38,0.09)' : 'rgba(5,150,105,0.09)',
-              border: `2px dashed ${color}66`,
+              gap: 2,
             }}
           >
+            {/* Circular arrow SVG */}
+            <svg width="42" height="42" viewBox="0 0 42 42" style={{ display: 'block' }}>
+              <circle cx="21" cy="21" r="20" fill={bg} stroke={`${color}44`} strokeWidth="1.5" />
+              <path
+                d={arcPath}
+                fill="none"
+                stroke={color}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {/* Label below the circle */}
             <span
               style={{
-                fontSize: 13,
+                fontSize: 11,
                 fontWeight: 800,
                 color,
                 fontFamily: 'var(--font-heading)',
                 userSelect: 'none',
+                letterSpacing: '0.03em',
+                lineHeight: 1,
               }}
             >
               {label}

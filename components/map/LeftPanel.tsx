@@ -8,9 +8,9 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { NodeType } from '@/types';
 
 const NODE_TYPES: { value: NodeType; label: string; dot: string }[] = [
-  { value: 'variable',  label: '변수',     dot: '#2563eb' },
-  { value: 'exogenous', label: '외생변수', dot: '#7c3aed' },
-  { value: 'lever',     label: '정책 레버', dot: '#059669' },
+  { value: 'variable',  label: 'Variable', dot: '#2563eb' },
+  { value: 'exogenous', label: 'External', dot: '#7c3aed' },
+  { value: 'lever',     label: 'Lever',    dot: '#059669' },
 ];
 
 interface LeftPanelProps {
@@ -80,14 +80,14 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
         {/* Topic */}
         <div>
           <p className="text-[10px] font-medium tracking-widest uppercase text-[var(--text-muted)] mb-2">
-            분석 주제
+            Topic
           </p>
           <div
             className="rounded-lg p-3 text-sm text-[var(--text-secondary)] leading-relaxed"
             style={{
               background: 'var(--glass-bg)',
               border: '1px solid var(--glass-border)',
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)',
             }}
           >
             {prompt}
@@ -104,7 +104,7 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
             }}
           >
             <LoadingSpinner size={13} />
-            <span className="text-xs text-[var(--text-muted)] animate-pulse-subtle">시스템 분석 중...</span>
+            <span className="text-xs text-[var(--text-muted)] animate-pulse-subtle">Analyzing system...</span>
           </div>
         )}
 
@@ -112,11 +112,11 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
           <div
             className="rounded-lg px-3 py-2.5 animate-fade-in"
             style={{
-              background: 'rgba(255,60,60,0.05)',
-              border: '1px solid rgba(255,60,60,0.12)',
+              background: 'rgba(239,68,68,0.06)',
+              border: '1px solid rgba(239,68,68,0.15)',
             }}
           >
-            <p className="text-xs text-red-400/80">{errorMessage || '분석 중 오류가 발생했습니다.'}</p>
+            <p className="text-xs text-red-500">{errorMessage || 'An error occurred during analysis.'}</p>
           </div>
         )}
 
@@ -130,20 +130,20 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
               <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
                 <path d="M5 1v8M1 5h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
               </svg>
-              노드 추가
+              Add node
             </button>
 
             {showAddNode && (
               <div
                 className="rounded-xl p-3 space-y-3 animate-slide-up"
                 style={{
-                  background: 'var(--glass-bg)',
+                  background: 'var(--glass-bg-strong)',
                   border: '1px solid var(--glass-border)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
                 }}
               >
                 <GlassInput
-                  placeholder="노드 이름"
+                  placeholder="Node name"
                   value={newNodeLabel}
                   onChange={(e) => setNewNodeLabel((e.target as HTMLInputElement).value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') handleAddNode(); }}
@@ -173,14 +173,14 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
                     onClick={() => setShowAddNode(false)}
                     className="flex-1 text-[10px] py-1.5 rounded-md text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors cursor-pointer"
                   >
-                    취소
+                    Cancel
                   </button>
                   <GlassButton
                     variant="primary"
                     className="flex-1 text-[10px] py-1.5"
                     onClick={handleAddNode}
                   >
-                    추가
+                    Add
                   </GlassButton>
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
         {status === 'ready' && (
           <div className="pt-2">
             <p className="text-[10px] font-medium tracking-widest uppercase text-[var(--text-muted)] mb-2.5">
-              노드 유형
+              Node types
             </p>
             <div className="space-y-1.5">
               {NODE_TYPES.map((t) => (
@@ -219,10 +219,10 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
             disabled={status !== 'ready'}
           >
             {copied
-              ? '링크 복사됨'
+              ? 'Link copied!'
               : shareUrl
-              ? '링크 복사'
-              : '공유 링크 생성'}
+              ? 'Copy link'
+              : 'Create share link'}
           </GlassButton>
         )}
       </div>

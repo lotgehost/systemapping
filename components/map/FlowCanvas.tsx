@@ -71,13 +71,13 @@ export default function FlowCanvas({ readOnly = false }: { readOnly?: boolean })
           variant={BackgroundVariant.Dots}
           gap={32}
           size={1}
-          color="rgba(255,255,255,0.04)"
+          color="rgba(0,0,0,0.07)"
         />
         <Controls position="bottom-left" showInteractive={false} />
         <MiniMap
           position="bottom-right"
-          nodeColor="rgba(255,255,255,0.12)"
-          maskColor="rgba(0,0,0,0.65)"
+          nodeColor="rgba(0,0,0,0.12)"
+          maskColor="rgba(255,255,255,0.55)"
         />
       </ReactFlow>
     </div>

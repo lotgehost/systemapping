@@ -90,7 +90,7 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
                   background: 'transparent',
                 }}
               >
-                {tab === 'chat' ? 'AI 대화' : '상세 정보'}
+                {tab === 'chat' ? 'Chat' : 'Details'}
                 {tab === 'detail' && hasSelection && (
                   <span
                     className="absolute top-2.5 right-4 w-1.5 h-1.5 rounded-full"
@@ -117,7 +117,7 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <p className="text-xs text-[var(--text-muted)] text-center px-6">
-                    노드 또는 엣지를 클릭하면<br />상세 정보가 표시됩니다
+                    Click a node or edge<br />to see details
                   </p>
                 </div>
               )

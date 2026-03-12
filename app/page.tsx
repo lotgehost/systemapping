@@ -17,9 +17,9 @@ export default function HomePage() {
           <h1
             className="text-[26px] leading-tight tracking-tight"
             style={{
-              fontFamily: 'var(--font-serif)',
+              fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',
-              fontStyle: 'italic',
+              fontWeight: 600,
             }}
           >
             Map any complex system.

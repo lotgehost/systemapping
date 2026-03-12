@@ -18,10 +18,10 @@ export default function GlassButton({
       hover:border-[var(--glass-border-strong)]
     `,
     primary: `
-      bg-white text-black
-      hover:bg-white/92 active:bg-white/85
-      shadow-[0_2px_12px_rgba(255,255,255,0.12)]
-      hover:shadow-[0_4px_20px_rgba(255,255,255,0.18)]
+      bg-[#111827] text-white
+      hover:bg-[#1f2937]
+      shadow-[0_2px_12px_rgba(0,0,0,0.12)]
+      hover:shadow-[0_4px_20px_rgba(0,0,0,0.18)]
     `,
     ghost: `
       border border-transparent

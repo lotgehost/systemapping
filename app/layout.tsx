@@ -1,25 +1,24 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans, Instrument_Serif } from 'next/font/google';
+import { Space_Grotesk, DM_Sans } from 'next/font/google';
 import './globals.css';
 
-const jakarta = Plus_Jakarta_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
   variable: '--font-jakarta',
   display: 'swap',
 });
 
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: 'System Mapper — AI 시스템 매핑 도구',
-  description: '복잡한 사회문제를 AI와 함께 시스템으로 이해합니다.',
+  title: 'System Mapper — AI-powered causal loop mapping',
+  description: 'Describe any complex system and AI builds a causal loop diagram.',
 };
 
 export default function RootLayout({
@@ -28,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${jakarta.variable} ${instrumentSerif.variable}`}>
+    <html lang="ko" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );

@@ -5,9 +5,9 @@ import SourceBadge from './SourceBadge';
 import GlassInput from '@/components/ui/GlassInput';
 
 const NODE_TYPE_LABELS: Record<string, string> = {
-  variable:  '변수',
-  exogenous: '외생변수',
-  lever:     '정책 레버',
+  variable:  'Variable',
+  exogenous: 'External',
+  lever:     'Lever',
 };
 
 const NODE_TYPE_DOTS: Record<string, string> = {
@@ -34,7 +34,7 @@ export default function DetailPanel() {
   const close = () => { selectNode(null); selectEdge(null); };
 
   const nodeType = selectedNode?.data.nodeType as string;
-  const dotColor = NODE_TYPE_DOTS[nodeType] ?? 'rgba(255,255,255,0.5)';
+  const dotColor = NODE_TYPE_DOTS[nodeType] ?? 'rgba(0,0,0,0.3)';
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -50,7 +50,7 @@ export default function DetailPanel() {
           <span className="text-[10px] font-medium tracking-widest uppercase text-[var(--text-muted)]">
             {selectedNode
               ? NODE_TYPE_LABELS[nodeType] ?? nodeType
-              : '관계'}
+              : 'Edge'}
           </span>
         </div>
         <button
@@ -65,7 +65,7 @@ export default function DetailPanel() {
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
         {selectedNode && (
           <>
-            <Field label="이름">
+            <Field label="Name">
               <GlassInput
                 value={selectedNode.data.label}
                 onChange={(e) =>
@@ -74,7 +74,7 @@ export default function DetailPanel() {
               />
             </Field>
 
-            <Field label="설명">
+            <Field label="Description">
               <GlassInput
                 multiline
                 rows={5}
@@ -86,7 +86,7 @@ export default function DetailPanel() {
             </Field>
 
             {selectedNode.data.sources.length > 0 && (
-              <Field label="출처">
+              <Field label="Sources">
                 <div className="space-y-2">
                   {selectedNode.data.sources.map((s, i) => (
                     <SourceBadge key={i} source={s} />
@@ -99,7 +99,7 @@ export default function DetailPanel() {
 
         {selectedEdge && (
           <>
-            <Field label="인과 극성">
+            <Field label="Polarity">
               <div className="flex gap-2">
                 {(['+', '-'] as const).map((p) => (
                   <button
@@ -116,15 +116,15 @@ export default function DetailPanel() {
                         : 'var(--glass-border)',
                     }}
                   >
-                    {p === '+' ? '+ 양(+)의 인과' : '− 음(−)의 인과'}
+                    {p === '+' ? '+ Positive' : '− Negative'}
                   </button>
                 ))}
               </div>
             </Field>
 
-            <Field label="피드백 루프 레이블 (선택)">
+            <Field label="Loop label (optional)">
               <GlassInput
-                placeholder="예: R1, B1, R2"
+                placeholder="e.g. R1, B1, R2"
                 value={selectedEdge.data?.loop_label ?? ''}
                 onChange={(e) =>
                   updateEdgeData(selectedEdge.id, { loop_label: (e.target as HTMLInputElement).value || undefined })
@@ -132,7 +132,7 @@ export default function DetailPanel() {
               />
             </Field>
 
-            <Field label="설명">
+            <Field label="Description">
               <GlassInput
                 multiline
                 rows={5}
@@ -144,7 +144,7 @@ export default function DetailPanel() {
             </Field>
 
             {(selectedEdge.data?.sources ?? []).length > 0 && (
-              <Field label="출처">
+              <Field label="Sources">
                 <div className="space-y-2">
                   {(selectedEdge.data?.sources ?? []).map((s, i) => (
                     <SourceBadge key={i} source={s} />
@@ -162,7 +162,7 @@ export default function DetailPanel() {
           onClick={close}
           className="w-full text-xs py-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--glass-hover)] transition-all duration-150 cursor-pointer border border-transparent hover:border-[var(--glass-border)]"
         >
-          닫기
+          Close
         </button>
       </div>
     </div>

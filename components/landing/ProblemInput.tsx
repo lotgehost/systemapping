@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowUp, Paperclip, X } from 'lucide-react';
+import { ArrowUp, Paperclip, X, Clock } from 'lucide-react';
 import RecentProjects from './RecentProjects';
 
 interface UploadedFile {
@@ -179,9 +179,9 @@ export default function ProblemInput() {
               onClick={() => setShowProjects((v) => !v)}
               className="h-8 w-8 flex items-center justify-center rounded-full text-base hover:bg-black/5 transition-all duration-150 cursor-pointer"
               title="My Projects"
-              style={{ opacity: showProjects ? 1 : 0.5 }}
+              style={{ color: showProjects ? '#374151' : '#9CA3AF' }}
             >
-              🗂️
+              <Clock className="w-4 h-4" />
             </button>
           </div>
 

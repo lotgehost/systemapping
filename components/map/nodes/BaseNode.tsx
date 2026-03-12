@@ -3,10 +3,10 @@
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
-const NODE_STYLES: Record<string, { label: string; color: string; bg: string; bgSelected: string }> = {
-  variable:  { label: '변수',     color: '#60a5fa', bg: 'rgba(37,99,235,0.12)',  bgSelected: 'rgba(37,99,235,0.22)' },
-  exogenous: { label: '외생변수', color: '#a78bfa', bg: 'rgba(124,58,237,0.12)', bgSelected: 'rgba(124,58,237,0.22)' },
-  lever:     { label: '정책 레버', color: '#34d399', bg: 'rgba(5,150,105,0.12)',  bgSelected: 'rgba(5,150,105,0.22)' },
+const NODE_STYLES: Record<string, { label: string; color: string; bg: string; bgSelected: string; border: string; borderSelected: string }> = {
+  variable:  { label: 'Variable', color: '#2563eb', bg: 'rgba(37,99,235,0.07)',   bgSelected: 'rgba(37,99,235,0.13)',  border: 'rgba(37,99,235,0.2)',   borderSelected: 'rgba(37,99,235,0.5)' },
+  exogenous: { label: 'External', color: '#7c3aed', bg: 'rgba(124,58,237,0.07)',  bgSelected: 'rgba(124,58,237,0.13)', border: 'rgba(124,58,237,0.2)',  borderSelected: 'rgba(124,58,237,0.5)' },
+  lever:     { label: 'Lever',    color: '#059669', bg: 'rgba(5,150,105,0.07)',   bgSelected: 'rgba(5,150,105,0.13)',  border: 'rgba(5,150,105,0.2)',   borderSelected: 'rgba(5,150,105,0.5)' },
 };
 
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
@@ -25,7 +25,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         position={Position.Top}
         style={{
           background: style.color,
-          border: '2px solid #1F2023',
+          border: '2px solid #ffffff',
           width: 8,
           height: 8,
           top: -4,
@@ -36,11 +36,13 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         className="rounded-xl px-4 py-3 cursor-pointer transition-all duration-200"
         style={{
           background: selected ? style.bgSelected : style.bg,
-          border: `1px solid ${selected ? style.color + '80' : 'rgba(255,255,255,0.1)'}`,
+          border: `1px solid ${selected ? style.borderSelected : style.border}`,
           boxShadow: selected
-            ? `0 0 0 2px ${style.color}33, 0 4px 16px rgba(0,0,0,0.4)`
-            : '0 2px 8px rgba(0,0,0,0.3)',
+            ? `0 0 0 2px ${style.color}22, 0 4px 16px rgba(0,0,0,0.1)`
+            : '0 2px 8px rgba(0,0,0,0.06)',
           transform: selected ? 'translateY(-1px)' : 'translateY(0)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
         }}
       >
         {/* Type badge row */}
@@ -61,9 +63,9 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
             <span
               className="text-[9px] tabular-nums rounded-full px-1.5 py-0.5"
               style={{
-                background: 'rgba(255,255,255,0.08)',
-                color: 'rgba(255,255,255,0.4)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(0,0,0,0.05)',
+                color: 'rgba(0,0,0,0.35)',
+                border: '1px solid rgba(0,0,0,0.08)',
               }}
             >
               {sources.length}
@@ -74,7 +76,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         {/* Label */}
         <p
           className="text-sm font-medium leading-snug"
-          style={{ color: '#F3F4F6' }}
+          style={{ color: '#111827' }}
         >
           {String(data.label)}
         </p>
@@ -85,7 +87,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         position={Position.Bottom}
         style={{
           background: style.color,
-          border: '2px solid #1F2023',
+          border: '2px solid #ffffff',
           width: 8,
           height: 8,
           bottom: -4,

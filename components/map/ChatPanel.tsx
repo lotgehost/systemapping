@@ -41,7 +41,7 @@ export default function ChatPanel() {
     } catch (err: unknown) {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: `오류: ${err instanceof Error ? err.message : '알 수 없는 오류'}` },
+        { role: 'assistant', content: `Error: ${err instanceof Error ? err.message : 'Something went wrong'}` },
       ]);
     } finally {
       setLoading(false);
@@ -52,8 +52,8 @@ export default function ChatPanel() {
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
       <div className="px-5 py-4 border-b border-[var(--glass-border)] flex-shrink-0">
-        <p className="text-[10px] font-semibold tracking-widest uppercase text-[var(--text-muted)]">AI 어시스턴트</p>
-        <p className="text-xs text-[var(--text-muted)] mt-0.5">현재 맵을 기반으로 대화합니다</p>
+        <p className="text-[10px] font-semibold tracking-widest uppercase text-[var(--text-muted)]">AI Assistant</p>
+        <p className="text-xs text-[var(--text-muted)] mt-0.5">Chat about the current map</p>
       </div>
 
       {/* Messages */}
@@ -61,9 +61,9 @@ export default function ChatPanel() {
         {messages.length === 0 && (
           <div className="space-y-2 pt-2">
             {[
-              '이 맵에서 빠진 피드백 루프가 있을까요?',
-              '강화 루프 R1을 설명해주세요',
-              '개입 효과가 가장 큰 레버는 어디인가요?',
+              'Are there missing feedback loops in this map?',
+              'Explain the reinforcing loop R1',
+              'Which lever has the highest leverage?',
             ].map((q) => (
               <button
                 key={q}
@@ -116,7 +116,7 @@ export default function ChatPanel() {
               }}
             >
               <LoadingSpinner size={12} />
-              <span className="text-xs text-[var(--text-muted)]">분석 중...</span>
+              <span className="text-xs text-[var(--text-muted)]">Thinking...</span>
             </div>
           </div>
         )}
@@ -135,7 +135,7 @@ export default function ChatPanel() {
                 send();
               }
             }}
-            placeholder="맵에 대해 질문하거나 개선 요청을 입력하세요..."
+            placeholder="Ask about the map or request changes..."
             rows={2}
             className="flex-1 resize-none text-xs rounded-lg px-3 py-2 outline-none transition-all duration-150"
             style={{
@@ -153,10 +153,10 @@ export default function ChatPanel() {
               color: '#ffffff',
             }}
           >
-            전송
+            Send
           </button>
         </div>
-        <p className="text-[10px] text-[var(--text-muted)] mt-1.5">Enter로 전송, Shift+Enter로 줄바꿈</p>
+        <p className="text-[10px] text-[var(--text-muted)] mt-1.5">Enter to send · Shift+Enter for new line</p>
       </div>
     </div>
   );

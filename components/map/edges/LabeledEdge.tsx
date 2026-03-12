@@ -1,6 +1,6 @@
 'use client';
 
-import { EdgeProps, getStraightPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
+import { EdgeProps, getSmoothStepPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
 import { useMapStore, MapEdge } from '@/hooks/useMapStore';
 
 export default function LabeledEdge({
@@ -16,18 +16,22 @@ export default function LabeledEdge({
 }: EdgeProps<MapEdge>) {
   const selectEdge = useMapStore((s) => s.selectEdge);
 
-  const [edgePath, labelX, labelY] = getStraightPath({
+  // getSmoothStepPath auto-selects the nearest side handle and routes cleanly
+  const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
+    sourcePosition,
     targetX,
     targetY,
+    targetPosition,
+    borderRadius: 40,
   });
 
   const polarity = data?.polarity ?? '+';
   const isPositive = polarity === '+';
   const color = selected
     ? (isPositive ? '#2563eb' : '#dc2626')
-    : (isPositive ? '#1d4ed8' : '#b91c1c');
+    : (isPositive ? '#374151' : '#9ca3af');
 
   return (
     <>
@@ -37,9 +41,8 @@ export default function LabeledEdge({
         style={{
           stroke: color,
           strokeWidth: selected ? 2 : 1.5,
-          opacity: selected ? 1 : 0.55,
+          opacity: selected ? 1 : 0.45,
         }}
-        markerEnd={`url(#arrow-${isPositive ? 'pos' : 'neg'}${selected ? '-sel' : ''})`}
         onClick={() => selectEdge(id)}
       />
       <EdgeLabelRenderer>
@@ -55,22 +58,20 @@ export default function LabeledEdge({
           }}
           className="cursor-pointer"
         >
-          {/* Polarity badge */}
           <span
             style={{
-              width: 20,
-              height: 20,
+              width: 18,
+              height: 18,
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               background: isPositive ? '#dbeafe' : '#fee2e2',
               border: `1.5px solid ${isPositive ? '#93c5fd' : '#fca5a5'}`,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 800,
               color: isPositive ? '#1d4ed8' : '#b91c1c',
               lineHeight: 1,
-              flexShrink: 0,
             }}
           >
             {isPositive ? '+' : '−'}

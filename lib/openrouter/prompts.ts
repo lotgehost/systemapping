@@ -55,7 +55,7 @@ Feedback loop rules:
 - Mark the loop_label field on ALL edges that form a feedback cycle
 
 Rules:
-- Generate 8-12 nodes total
+- Generate 6-9 nodes total
 - All node labels must be nouns/noun phrases that represent measurable or observable quantities (NOT actor names like "정부" or "기업" — instead use "정부 개입 수준", "기업 투자 규모")
 - EVERY node must have at least 1 source entry — never leave sources as empty array []
 - For sources, cite specific real references: government statistics, academic papers, policy reports. Include year if known.

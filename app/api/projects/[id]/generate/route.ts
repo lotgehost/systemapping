@@ -4,6 +4,8 @@ import { chatCompletion } from '@/lib/openrouter/client';
 import { parseAIResponse } from '@/lib/openrouter/parser';
 import { SYSTEM_PROMPT, buildUserPrompt } from '@/lib/openrouter/prompts';
 
+export const maxDuration = 60;
+
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }

@@ -18,16 +18,17 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  ready: '#059669',
-  generating: '#2563eb',
-  pending: '#999999',
-  error: '#dc2626',
+  ready: '#34d399',
+  generating: '#60a5fa',
+  pending: '#9CA3AF',
+  error: '#f87171',
 };
 
 export default function RecentProjects() {
   const router = useRouter();
   const [projects, setProjects] = useState<ProjectSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/projects')
@@ -39,10 +40,23 @@ export default function RecentProjects() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    setDeletingId(id);
+    try {
+      await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+    } catch {
+      // ignore
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center py-12">
-        <div className="w-4 h-4 rounded-full border-2 border-[var(--text-muted)] border-t-transparent animate-spin" />
+        <div className="w-4 h-4 rounded-full border-2 border-[#444444] border-t-[#9CA3AF] animate-spin" />
       </div>
     );
   }
@@ -50,7 +64,7 @@ export default function RecentProjects() {
   if (projects.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-sm text-[var(--text-muted)]">아직 생성한 맵이 없습니다.</p>
+        <p className="text-sm text-[#6B7280]">아직 생성한 맵이 없습니다.</p>
       </div>
     );
   }
@@ -61,39 +75,56 @@ export default function RecentProjects() {
         <button
           key={p.id}
           onClick={() => router.push(`/map/${p.id}`)}
-          className="w-full text-left rounded-xl px-4 py-3.5 transition-all duration-150 cursor-pointer border"
+          className="w-full text-left rounded-2xl px-4 py-3.5 transition-all duration-150 cursor-pointer border"
           style={{
-            background: 'var(--glass-bg)',
-            borderColor: 'var(--glass-border)',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+            background: 'rgba(255,255,255,0.04)',
+            borderColor: 'rgba(255,255,255,0.08)',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.15)';
-            (e.currentTarget as HTMLElement).style.background = 'var(--glass-bg-strong)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = 'var(--glass-border)';
-            (e.currentTarget as HTMLElement).style.background = 'var(--glass-bg)';
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
           }}
         >
           <div className="flex items-start justify-between gap-3">
-            <p
-              className="text-sm leading-snug line-clamp-2 flex-1"
-              style={{ color: 'var(--text-primary)' }}
-            >
+            <p className="text-sm leading-snug line-clamp-2 flex-1 text-[#E5E7EB]">
               {p.prompt}
             </p>
-            <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5"
-              style={{
-                background: STATUS_COLOR[p.status] + '18',
-                color: STATUS_COLOR[p.status],
-              }}
-            >
-              {STATUS_LABEL[p.status] ?? p.status}
-            </span>
+            <div className="flex items-center gap-1.5 flex-shrink-0 mt-0.5">
+              <span
+                className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                style={{
+                  background: STATUS_COLOR[p.status] + '22',
+                  color: STATUS_COLOR[p.status],
+                }}
+              >
+                {STATUS_LABEL[p.status] ?? p.status}
+              </span>
+              <button
+                onClick={(e) => handleDelete(e, p.id)}
+                disabled={deletingId === p.id}
+                className="w-5 h-5 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer disabled:opacity-40"
+                style={{ background: 'rgba(255,255,255,0.07)', color: '#6B7280' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(248,113,113,0.15)';
+                  (e.currentTarget as HTMLElement).style.color = '#f87171';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
+                  (e.currentTarget as HTMLElement).style.color = '#6B7280';
+                }}
+              >
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                  <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
           </div>
-          <p className="text-[11px] mt-1.5" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[11px] mt-1.5 text-[#6B7280]">
             {new Date(p.created_at).toLocaleDateString('ko-KR', {
               year: 'numeric', month: 'short', day: 'numeric',
             })}

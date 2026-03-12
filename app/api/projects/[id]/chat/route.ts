@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { chatCompletion } from '@/lib/openrouter/client';
 
+export const maxDuration = 60;
+
 const CHAT_SYSTEM_PROMPT = `You are a systems thinking advisor specializing in Causal Loop Diagrams (CLD / 인과지도). You are helping a user refine and improve their system map.
 
 You have access to the current map state (nodes and edges). When answering:

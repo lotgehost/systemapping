@@ -3,10 +3,10 @@
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
-const NODE_STYLES: Record<string, { label: string; color: string; bg: string }> = {
-  variable:  { label: '변수',     color: '#2563eb', bg: '#eff6ff' },
-  exogenous: { label: '외생변수', color: '#7c3aed', bg: '#f5f3ff' },
-  lever:     { label: '정책 레버', color: '#059669', bg: '#ecfdf5' },
+const NODE_STYLES: Record<string, { label: string; color: string; bg: string; bgSelected: string }> = {
+  variable:  { label: '변수',     color: '#60a5fa', bg: 'rgba(37,99,235,0.12)',  bgSelected: 'rgba(37,99,235,0.22)' },
+  exogenous: { label: '외생변수', color: '#a78bfa', bg: 'rgba(124,58,237,0.12)', bgSelected: 'rgba(124,58,237,0.22)' },
+  lever:     { label: '정책 레버', color: '#34d399', bg: 'rgba(5,150,105,0.12)',  bgSelected: 'rgba(5,150,105,0.22)' },
 };
 
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
@@ -25,7 +25,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         position={Position.Top}
         style={{
           background: style.color,
-          border: '2px solid #fff',
+          border: '2px solid #1F2023',
           width: 8,
           height: 8,
           top: -4,
@@ -35,11 +35,11 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
       <div
         className="rounded-xl px-4 py-3 cursor-pointer transition-all duration-200"
         style={{
-          background: selected ? style.bg : '#ffffff',
-          border: `1px solid ${selected ? style.color : 'rgba(0,0,0,0.08)'}`,
+          background: selected ? style.bgSelected : style.bg,
+          border: `1px solid ${selected ? style.color + '80' : 'rgba(255,255,255,0.1)'}`,
           boxShadow: selected
-            ? `0 0 0 2px ${style.color}33, 0 4px 16px rgba(0,0,0,0.1)`
-            : '0 2px 8px rgba(0,0,0,0.07)',
+            ? `0 0 0 2px ${style.color}33, 0 4px 16px rgba(0,0,0,0.4)`
+            : '0 2px 8px rgba(0,0,0,0.3)',
           transform: selected ? 'translateY(-1px)' : 'translateY(0)',
         }}
       >
@@ -61,9 +61,9 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
             <span
               className="text-[9px] tabular-nums rounded-full px-1.5 py-0.5"
               style={{
-                background: 'rgba(0,0,0,0.05)',
-                color: 'rgba(0,0,0,0.35)',
-                border: '1px solid rgba(0,0,0,0.07)',
+                background: 'rgba(255,255,255,0.08)',
+                color: 'rgba(255,255,255,0.4)',
+                border: '1px solid rgba(255,255,255,0.1)',
               }}
             >
               {sources.length}
@@ -74,7 +74,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         {/* Label */}
         <p
           className="text-sm font-medium leading-snug"
-          style={{ color: '#111111' }}
+          style={{ color: '#F3F4F6' }}
         >
           {String(data.label)}
         </p>
@@ -85,7 +85,7 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         position={Position.Bottom}
         style={{
           background: style.color,
-          border: '2px solid #fff',
+          border: '2px solid #1F2023',
           width: 8,
           height: 8,
           bottom: -4,

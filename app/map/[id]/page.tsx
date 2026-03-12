@@ -38,7 +38,7 @@ export default function MapPage({ params }: { params: Promise<{ id: string }> })
           source: e.source,
           target: e.target,
           type: 'labeled',
-          data: { relation_type: e.relation_type, description: e.description, sources: e.sources },
+          data: { polarity: e.polarity, loop_label: e.loop_label, description: e.description, sources: e.sources },
         }));
         const laidOut = applyDagreLayout(flowNodes, flowEdges);
         useMapStore.setState({ nodes: laidOut, edges: flowEdges });

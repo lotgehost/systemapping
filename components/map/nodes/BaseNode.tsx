@@ -3,13 +3,13 @@
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
-const NODE_STYLES: Record<string, { color: string; selectedColor: string; bg: string; bgSelected: string; label: string }> = {
-  variable:  { color: '#1d3461', selectedColor: '#2563eb', bg: 'rgba(29,52,97,0.07)',    bgSelected: 'rgba(37,99,235,0.12)',   label: '' },
-  exogenous: { color: '#6d28d9', selectedColor: '#7c3aed', bg: 'rgba(109,40,217,0.07)', bgSelected: 'rgba(124,58,237,0.12)', label: 'EXT' },
-  lever:     { color: '#065f46', selectedColor: '#059669', bg: 'rgba(6,95,70,0.07)',     bgSelected: 'rgba(5,150,105,0.12)',  label: 'LEV' },
+const NODE_STYLES: Record<string, { color: string; selectedColor: string; label: string }> = {
+  variable:  { color: '#111827', selectedColor: '#2563eb', label: '' },
+  exogenous: { color: '#6d28d9', selectedColor: '#7c3aed', label: 'EXT' },
+  lever:     { color: '#065f46', selectedColor: '#059669', label: 'LEV' },
 };
 
-const handleStyle = { background: 'transparent', border: 'none', width: 8, height: 8 };
+const h = { background: 'transparent', border: 'none', width: 1, height: 1, minWidth: 0, minHeight: 0 };
 
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
   const selectNode = useMapStore((s) => s.selectNode);
@@ -18,41 +18,34 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
   return (
     <div
       onClick={() => selectNode(id)}
-      className="relative cursor-pointer"
-      style={{ minWidth: 72, maxWidth: 150 }}
+      className="relative cursor-pointer select-none"
+      style={{ minWidth: 60, maxWidth: 130 }}
     >
-      {/* 4-directional handles — getSmoothStepPath picks the best port automatically */}
-      <Handle type="target" position={Position.Top}    style={{ ...handleStyle, top: -4,    left: '50%' }} />
-      <Handle type="target" position={Position.Bottom} style={{ ...handleStyle, bottom: -4, left: '50%' }} />
-      <Handle type="target" position={Position.Left}   style={{ ...handleStyle, left: -4,   top: '50%' }} />
-      <Handle type="target" position={Position.Right}  style={{ ...handleStyle, right: -4,  top: '50%' }} />
-      <Handle type="source" position={Position.Top}    style={{ ...handleStyle, top: -4,    left: '50%' }} />
-      <Handle type="source" position={Position.Bottom} style={{ ...handleStyle, bottom: -4, left: '50%' }} />
-      <Handle type="source" position={Position.Left}   style={{ ...handleStyle, left: -4,   top: '50%' }} />
-      <Handle type="source" position={Position.Right}  style={{ ...handleStyle, right: -4,  top: '50%' }} />
+      <Handle type="target" position={Position.Top}    style={{ ...h, top: '50%',    left: '50%' }} />
+      <Handle type="target" position={Position.Bottom} style={{ ...h, bottom: '50%', left: '50%' }} />
+      <Handle type="target" position={Position.Left}   style={{ ...h, left: '50%',   top: '50%' }} />
+      <Handle type="target" position={Position.Right}  style={{ ...h, right: '50%',  top: '50%' }} />
+      <Handle type="source" position={Position.Top}    style={{ ...h, top: '50%',    left: '50%' }} />
+      <Handle type="source" position={Position.Bottom} style={{ ...h, bottom: '50%', left: '50%' }} />
+      <Handle type="source" position={Position.Left}   style={{ ...h, left: '50%',   top: '50%' }} />
+      <Handle type="source" position={Position.Right}  style={{ ...h, right: '50%',  top: '50%' }} />
 
-      <div
-        className="flex flex-col items-center text-center select-none px-3 py-1.5 transition-all duration-150"
-        style={{
-          background: selected ? style.bgSelected : style.bg,
-          borderRadius: 999,
-          border: `1.5px solid ${selected ? style.selectedColor + '55' : style.color + '22'}`,
-          boxShadow: selected ? `0 0 0 3px ${style.selectedColor}18` : 'none',
-        }}
-      >
+      <div className="flex flex-col items-center text-center">
         {style.label && (
           <span
-            className="text-[8px] font-bold tracking-widest uppercase leading-none mb-0.5"
-            style={{ color: style.color, opacity: 0.65 }}
+            className="text-[8px] font-semibold tracking-widest uppercase leading-none mb-0.5"
+            style={{ color: style.color, opacity: 0.55 }}
           >
             {style.label}
           </span>
         )}
         <span
-          className="text-[12px] font-semibold leading-snug"
+          className="text-[13px] font-semibold leading-snug text-center"
           style={{
             color: selected ? style.selectedColor : style.color,
-            textShadow: '0 1px 2px rgba(255,255,255,0.8)',
+            textDecoration: selected ? 'underline' : 'none',
+            textDecorationColor: style.selectedColor,
+            textUnderlineOffset: '3px',
           }}
         >
           {String(data.label)}

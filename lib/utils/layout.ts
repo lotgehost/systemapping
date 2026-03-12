@@ -1,8 +1,8 @@
 import dagre from '@dagrejs/dagre';
 import { Node, Edge } from '@xyflow/react';
 
-const NODE_WIDTH = 140;
-const NODE_HEIGHT = 40;
+const NODE_WIDTH = 120;
+const NODE_HEIGHT = 36;
 
 export function applyDagreLayout<T extends Node>(
   nodes: T[],
@@ -13,11 +13,11 @@ export function applyDagreLayout<T extends Node>(
   const graph = new dagre.graphlib.Graph();
   graph.setGraph({
     rankdir: 'LR',
-    nodesep: 80,
-    ranksep: 160,
-    edgesep: 40,
-    marginx: 60,
-    marginy: 60,
+    nodesep: 100,
+    ranksep: 200,
+    edgesep: 50,
+    marginx: 80,
+    marginy: 80,
   });
   graph.setDefaultEdgeLabel(() => ({}));
 

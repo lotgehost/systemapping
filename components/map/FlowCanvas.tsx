@@ -158,6 +158,14 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
 
   return (
     <div ref={containerRef} className="relative w-full h-full">
+      {/* Global SVG defs for arrowhead marker */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          <marker id="cld-arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L8,3 L0,6 Z" fill="rgba(30,30,30,0.5)" />
+          </marker>
+        </defs>
+      </svg>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -168,7 +176,7 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
-        fitViewOptions={{ padding: 0.25 }}
+        fitViewOptions={{ padding: 0.3 }}
         nodesDraggable={!readOnly}
         nodesConnectable={!readOnly}
         elementsSelectable={!readOnly}
@@ -176,7 +184,7 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
         proOptions={{ hideAttribution: true }}
         style={{ background: 'var(--bg-primary)' }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={32} size={1} color="rgba(0,0,0,0.07)" />
+        <Background variant={BackgroundVariant.Dots} gap={32} size={1} color="rgba(0,0,0,0.06)" />
         <Controls position="bottom-left" showInteractive={false} />
         <MiniMap position="bottom-right" nodeColor="rgba(0,0,0,0.12)" maskColor="rgba(255,255,255,0.55)" />
       </ReactFlow>

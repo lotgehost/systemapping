@@ -1,6 +1,6 @@
 'use client';
 
-import { EdgeProps, getSmoothStepPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
+import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
 import { useMapStore, MapEdge } from '@/hooks/useMapStore';
 
 export default function LabeledEdge({
@@ -16,22 +16,25 @@ export default function LabeledEdge({
 }: EdgeProps<MapEdge>) {
   const selectEdge = useMapStore((s) => s.selectEdge);
 
-  // getSmoothStepPath auto-selects the nearest side handle and routes cleanly
-  const [edgePath, labelX, labelY] = getSmoothStepPath({
+  const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
     sourcePosition,
     targetX,
     targetY,
     targetPosition,
-    borderRadius: 40,
+    curvature: 0.35,
   });
 
   const polarity = data?.polarity ?? '+';
   const isPositive = polarity === '+';
-  const color = selected
-    ? (isPositive ? '#2563eb' : '#dc2626')
-    : (isPositive ? '#374151' : '#9ca3af');
+
+  // Edge color: thin, dark, subtle
+  const strokeColor = selected ? '#1d4ed8' : 'rgba(30,30,30,0.35)';
+
+  // Polarity sign positioned near the arrowhead (80% toward target)
+  const px = sourceX * 0.25 + targetX * 0.75;
+  const py = sourceY * 0.25 + targetY * 0.75;
 
   return (
     <>
@@ -39,44 +42,30 @@ export default function LabeledEdge({
         id={id}
         path={edgePath}
         style={{
-          stroke: color,
-          strokeWidth: selected ? 2 : 1.5,
-          opacity: selected ? 1 : 0.45,
+          stroke: strokeColor,
+          strokeWidth: selected ? 1.5 : 1,
+          fill: 'none',
         }}
+        markerEnd="url(#cld-arrow)"
         onClick={() => selectEdge(id)}
       />
       <EdgeLabelRenderer>
-        <div
+        <span
           onClick={() => selectEdge(id)}
           style={{
             position: 'absolute',
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            transform: `translate(-50%, -50%) translate(${px}px,${py}px)`,
             pointerEvents: 'all',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            fontSize: 13,
+            fontWeight: 700,
+            lineHeight: 1,
+            color: isPositive ? '#1d4ed8' : '#dc2626',
+            cursor: 'pointer',
+            userSelect: 'none',
           }}
-          className="cursor-pointer"
         >
-          <span
-            style={{
-              width: 18,
-              height: 18,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: isPositive ? '#dbeafe' : '#fee2e2',
-              border: `1.5px solid ${isPositive ? '#93c5fd' : '#fca5a5'}`,
-              fontSize: 11,
-              fontWeight: 800,
-              color: isPositive ? '#1d4ed8' : '#b91c1c',
-              lineHeight: 1,
-            }}
-          >
-            {isPositive ? '+' : '−'}
-          </span>
-        </div>
+          {isPositive ? '+' : '−'}
+        </span>
       </EdgeLabelRenderer>
     </>
   );

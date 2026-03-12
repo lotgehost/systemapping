@@ -30,7 +30,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       .eq('id', id)
       .single();
 
-    if (error || !project) {
+    if (error) {
+      return NextResponse.json({ error: `DB error: ${error.message}` }, { status: 500 });
+    }
+    if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 

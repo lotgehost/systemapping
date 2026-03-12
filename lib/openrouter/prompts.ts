@@ -58,12 +58,18 @@ Rules:
 - Generate 6-9 nodes total
 - All node labels must be nouns/noun phrases that represent measurable or observable quantities (NOT actor names like "정부" or "기업" — instead use "정부 개입 수준", "기업 투자 규모")
 - EVERY node must have at least 1 source entry — never leave sources as empty array []
-- For sources, cite specific real references: government statistics, academic papers, policy reports. Include year if known.
-  Example titles: "통계청 2023 주거실태조사", "국토연구원 청년주거 정책연구 (2022)", "한국보건사회연구원 보고서"
-- Use type "ai_inference" when the reference comes from your training knowledge (most common)
-- Use type "web" only when you know a specific URL that is real and accessible
+- For sources, cite specific real references: government statistics (통계청, 국토연구원, OECD, World Bank), academic papers, or policy reports. Include publication year.
+  Example titles: "통계청 2023 주거실태조사", "국토연구원 청년주거 정책연구 (2022)", "OECD Education at a Glance 2023", "한국보건사회연구원 보고서"
+- The "url" field: ONLY include a URL if you are highly confident it is a real, publicly accessible URL. Well-known, stable URLs you may use:
+  - Korean statistics: "https://kosis.kr" (통계청 KOSIS), "https://data.go.kr" (공공데이터포털)
+  - Korean research: "https://www.krihs.re.kr" (국토연구원), "https://www.kihasa.re.kr" (한국보건사회연구원)
+  - International: "https://data.worldbank.org", "https://stats.oecd.org"
+  - If unsure about the exact URL, OMIT the url field entirely — do not guess
+- Use type "web" when you include a real URL above
+- Use type "ai_inference" when referencing from your training knowledge without a confirmed URL
 - Use type "upload" when citing uploaded user documents
-- The "excerpt" field must contain a specific fact, statistic, or finding — not a generic statement
+- The "excerpt" field must contain a specific fact, statistic, percentage, or finding — not a generic statement
+- Good excerpt examples: "2022년 청년(19-34세) 자가보유율 22.4% (통계청)", "OECD 평균 대비 한국 가처분소득 대비 주거비 비율 32.1% (2021)"
 - All labels and descriptions must be in Korean
 - Focus on structural causal relationships, not surface symptoms`;
 

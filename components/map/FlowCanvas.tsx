@@ -77,11 +77,14 @@ function LoopLabelOverlay() {
         const px = x * zoom + vpX;
         const py = y * zoom + vpY;
         const color = isReinforcing ? '#dc2626' : '#059669';
-        const bg = isReinforcing ? 'rgba(220,38,38,0.07)' : 'rgba(5,150,105,0.07)';
-        // Reinforcing: clockwise arrow ↻, Balancing: counter-clockwise ↺
+        const markerId = `loop-ah-${label}`;
+        // 300° arc: center (22,22) radius 15
+        // Bottom-left (120°): (14.5, 35) — Bottom-right (60°): (29.5, 35)
+        // R (reinforcing): clockwise sweep=1 going up and over the top
+        // B (balancing): counter-clockwise sweep=0
         const arcPath = isReinforcing
-          ? 'M 28,14 A 14,14 0 1,1 14,28 M 14,28 L 10,22 M 14,28 L 20,24'
-          : 'M 14,14 A 14,14 0 1,0 28,28 M 28,28 L 32,22 M 28,28 L 22,24';
+          ? 'M 14.5,35 A 15,15 0 1,1 29.5,35'
+          : 'M 29.5,35 A 15,15 0 1,0 14.5,35';
         return (
           <div
             key={label}
@@ -92,38 +95,45 @@ function LoopLabelOverlay() {
               transform: 'translate(-50%, -50%)',
               pointerEvents: 'none',
               zIndex: 5,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 2,
             }}
           >
-            {/* Circular arrow SVG */}
-            <svg width="42" height="42" viewBox="0 0 42 42" style={{ display: 'block' }}>
-              <circle cx="21" cy="21" r="20" fill={bg} stroke={`${color}44`} strokeWidth="1.5" />
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <defs>
+                <marker
+                  id={markerId}
+                  markerWidth="7"
+                  markerHeight="7"
+                  refX="6"
+                  refY="3.5"
+                  orient="auto"
+                  markerUnits="userSpaceOnUse"
+                >
+                  <path d="M0,0 L7,3.5 L0,7 Z" fill={color} />
+                </marker>
+              </defs>
+              {/* Smooth arc with auto-oriented arrowhead */}
               <path
                 d={arcPath}
                 fill="none"
                 stroke={color}
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"
+                markerEnd={`url(#${markerId})`}
               />
+              {/* Label centered inside arc */}
+              <text
+                x="22"
+                y="23"
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize="12"
+                fontWeight="800"
+                fill={color}
+                style={{ fontFamily: 'var(--font-heading)', userSelect: 'none' }}
+              >
+                {label}
+              </text>
             </svg>
-            {/* Label below the circle */}
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 800,
-                color,
-                fontFamily: 'var(--font-heading)',
-                userSelect: 'none',
-                letterSpacing: '0.03em',
-                lineHeight: 1,
-              }}
-            >
-              {label}
-            </span>
           </div>
         );
       })}

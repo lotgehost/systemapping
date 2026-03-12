@@ -1,43 +1,69 @@
-import dagre from '@dagrejs/dagre';
 import { Node, Edge } from '@xyflow/react';
 
 const NODE_WIDTH = 120;
 const NODE_HEIGHT = 36;
 
-export function applyDagreLayout<T extends Node>(
-  nodes: T[],
-  edges: Edge[]
-): T[] {
-  if (nodes.length === 0) return nodes;
+/**
+ * Circular layout: places nodes evenly on a circle.
+ * Uses BFS ordering so connected nodes end up adjacent on the ring,
+ * which minimises edge crossings.
+ */
+export function applyDagreLayout<T extends Node>(nodes: T[], edges: Edge[]): T[] {
+  const n = nodes.length;
+  if (n === 0) return nodes;
+  if (n === 1) return [{ ...nodes[0], position: { x: 0, y: 0 } }];
 
-  const graph = new dagre.graphlib.Graph();
-  graph.setGraph({
-    rankdir: 'LR',
-    nodesep: 100,
-    ranksep: 200,
-    edgesep: 50,
-    marginx: 80,
-    marginy: 80,
-  });
-  graph.setDefaultEdgeLabel(() => ({}));
-
-  nodes.forEach((n) => {
-    graph.setNode(n.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
-  });
-
+  // Build undirected adjacency
+  const adj = new Map<string, Set<string>>();
+  nodes.forEach((node) => adj.set(node.id, new Set()));
   edges.forEach((e) => {
-    if (e.source !== e.target) graph.setEdge(e.source, e.target);
+    if (e.source !== e.target) {
+      adj.get(e.source)?.add(e.target);
+      adj.get(e.target)?.add(e.source);
+    }
   });
 
-  dagre.layout(graph);
+  // BFS from the highest-degree node so well-connected nodes are adjacent on ring
+  const startId = [...adj.entries()].sort((a, b) => b[1].size - a[1].size)[0][0];
+  const order: string[] = [];
+  const visited = new Set<string>([startId]);
+  const queue: string[] = [startId];
 
-  return nodes.map((n) => {
-    const pos = graph.node(n.id);
+  while (queue.length > 0) {
+    const curr = queue.shift()!;
+    order.push(curr);
+    // Sort neighbours by degree desc for better visual grouping
+    const neighbours = [...(adj.get(curr) ?? [])].sort(
+      (a, b) => (adj.get(b)?.size ?? 0) - (adj.get(a)?.size ?? 0)
+    );
+    for (const nb of neighbours) {
+      if (!visited.has(nb)) {
+        visited.add(nb);
+        queue.push(nb);
+      }
+    }
+  }
+  // Include any disconnected nodes
+  nodes.forEach((node) => {
+    if (!visited.has(node.id)) order.push(node.id);
+  });
+
+  const positionIndex = new Map(order.map((id, i) => [id, i]));
+
+  // Radius scales with node count to keep good spacing
+  const R = Math.max(260, n * 52);
+  const CX = R;
+  const CY = R;
+
+  return nodes.map((node) => {
+    const idx = positionIndex.get(node.id) ?? 0;
+    // Start from top (−π/2) and go clockwise
+    const angle = (2 * Math.PI * idx) / n - Math.PI / 2;
     return {
-      ...n,
+      ...node,
       position: {
-        x: pos.x - NODE_WIDTH / 2,
-        y: pos.y - NODE_HEIGHT / 2,
+        x: CX + R * Math.cos(angle) - NODE_WIDTH / 2,
+        y: CY + R * Math.sin(angle) - NODE_HEIGHT / 2,
       },
     };
   });

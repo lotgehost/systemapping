@@ -144,7 +144,7 @@ export default function ProblemInput() {
           placeholder="어떤 시스템을 이해하고 싶으신가요?"
           rows={1}
           disabled={loading}
-          className="w-full bg-transparent px-4 py-3.5 text-sm text-gray-100 placeholder:text-[#6B7280] focus:outline-none resize-none disabled:opacity-50"
+          className="w-full bg-transparent px-4 py-3.5 text-sm text-gray-100 placeholder:text-[#6B7280] outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
           style={{ minHeight: '52px', maxHeight: '160px' }}
         />
 

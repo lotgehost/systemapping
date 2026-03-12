@@ -207,6 +207,5 @@ body {
 /* ─── Focus ring ─────────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 1.5px solid rgba(255,255,255,0.2);
-  outline-offset: 2px;
+  outline: none;
 }

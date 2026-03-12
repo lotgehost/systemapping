@@ -20,7 +20,8 @@ function toSystemEdge(e: Edge<MapEdgeData>): SystemEdge {
     id: e.id,
     source: e.source,
     target: e.target,
-    relation_type: e.data?.relation_type ?? '',
+    polarity: e.data?.polarity ?? '+',
+    loop_label: e.data?.loop_label,
     description: e.data?.description ?? '',
     sources: e.data?.sources ?? [],
   };

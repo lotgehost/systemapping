@@ -15,9 +15,9 @@ export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
       'X-Title': 'System Mapper',
     },
     body: JSON.stringify({
-      model: 'google/gemini-2.0-flash-exp:free',
+      model: 'google/gemini-2.0-flash-001',
       messages,
-      max_tokens: 1500,
+      max_tokens: 2000,
       temperature: 0.3,
     }),
     signal: AbortSignal.timeout(90_000),

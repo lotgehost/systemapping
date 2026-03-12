@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const supabase = createClient();
     const { data: project, error } = await supabase
       .from('projects')
-      .select('prompt, nodes, edges')
+      .select('*')
       .eq('id', id)
       .single();
 

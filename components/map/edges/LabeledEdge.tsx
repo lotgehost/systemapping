@@ -1,6 +1,6 @@
 'use client';
 
-import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
+import { EdgeProps, getStraightPath, EdgeLabelRenderer, BaseEdge } from '@xyflow/react';
 import { useMapStore, MapEdge } from '@/hooks/useMapStore';
 
 export default function LabeledEdge({
@@ -16,13 +16,11 @@ export default function LabeledEdge({
 }: EdgeProps<MapEdge>) {
   const selectEdge = useMapStore((s) => s.selectEdge);
 
-  const [edgePath, labelX, labelY] = getBezierPath({
+  const [edgePath, labelX, labelY] = getStraightPath({
     sourceX,
     sourceY,
-    sourcePosition,
     targetX,
     targetY,
-    targetPosition,
   });
 
   const polarity = data?.polarity ?? '+';

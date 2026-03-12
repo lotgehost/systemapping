@@ -37,28 +37,6 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Logo / header */}
-      <div className="px-5 py-5 border-b border-[var(--glass-border)]">
-        <div className="flex items-center gap-2.5">
-          <div
-            className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
-            style={{
-              background: 'rgba(0,0,0,0.05)',
-              border: '1px solid rgba(0,0,0,0.1)',
-            }}
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <circle cx="3" cy="3" r="1.5" fill="#2563eb" />
-              <circle cx="9" cy="3" r="1.5" fill="#7c3aed" />
-              <circle cx="6" cy="9" r="1.5" fill="#059669" />
-              <line x1="3" y1="3" x2="9" y2="3" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
-              <line x1="3" y1="3" x2="6" y2="9" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
-              <line x1="9" y1="3" x2="6" y2="9" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
 

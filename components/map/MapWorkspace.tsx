@@ -4,8 +4,9 @@ import { useAutoSave } from '@/hooks/useAutoSave';
 import LeftPanel from './LeftPanel';
 import FlowCanvas from './FlowCanvas';
 import DetailPanel from './DetailPanel';
+import ChatPanel from './ChatPanel';
 import { useMapStore } from '@/hooks/useMapStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface MapWorkspaceProps {
   readOnly?: boolean;
@@ -16,10 +17,16 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
   const selectedNodeId = useMapStore((s) => s.selectedNodeId);
   const selectedEdgeId = useMapStore((s) => s.selectedEdgeId);
   const [shareUrl, setShareUrl] = useState<string | undefined>();
+  const [rightTab, setRightTab] = useState<'chat' | 'detail'>('chat');
 
   useAutoSave();
 
   const hasSelection = !!(selectedNodeId || selectedEdgeId);
+
+  // Auto-switch to detail tab when something is selected
+  useEffect(() => {
+    if (hasSelection) setRightTab('detail');
+  }, [hasSelection]);
 
   const handleShare = async () => {
     if (!projectId) return;
@@ -59,20 +66,63 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
         <FlowCanvas readOnly={readOnly} />
       </div>
 
-      {/* Right detail panel — slides in when something is selected */}
+      {/* Right panel — always visible when not readOnly */}
       {!readOnly && (
         <div
-          className="flex-shrink-0 border-l border-[var(--glass-border)] overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="flex-shrink-0 border-l border-[var(--glass-border)] flex flex-col overflow-hidden"
           style={{
-            width: hasSelection ? 'var(--panel-right)' : '0px',
+            width: 'var(--panel-right)',
             background: 'linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%)',
           }}
         >
-          {hasSelection && (
-            <div className="w-[320px] h-full panel-enter">
-              <DetailPanel />
-            </div>
-          )}
+          {/* Tabs */}
+          <div
+            className="flex flex-shrink-0 border-b border-[var(--glass-border)]"
+            style={{ background: 'var(--glass-bg)' }}
+          >
+            {(['chat', 'detail'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setRightTab(tab)}
+                className="flex-1 py-3 text-[10px] font-semibold tracking-widest uppercase transition-all duration-150 cursor-pointer relative"
+                style={{
+                  color: rightTab === tab ? 'var(--text-primary)' : 'var(--text-muted)',
+                  background: 'transparent',
+                }}
+              >
+                {tab === 'chat' ? 'AI 대화' : '상세 정보'}
+                {tab === 'detail' && hasSelection && (
+                  <span
+                    className="absolute top-2.5 right-4 w-1.5 h-1.5 rounded-full"
+                    style={{ background: '#2563eb' }}
+                  />
+                )}
+                {rightTab === tab && (
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-0.5"
+                    style={{ background: '#2563eb' }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          <div className="flex-1 overflow-hidden">
+            {rightTab === 'chat' ? (
+              <ChatPanel />
+            ) : (
+              hasSelection ? (
+                <DetailPanel />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-xs text-[var(--text-muted)] text-center px-6">
+                    노드 또는 엣지를 클릭하면<br />상세 정보가 표시됩니다
+                  </p>
+                </div>
+              )
+            )}
+          </div>
         </div>
       )}
     </div>

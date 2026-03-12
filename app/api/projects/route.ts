@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
+export async function GET() {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('projects')
+      .select('id, prompt, status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(data ?? []);
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : String(err) }, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { prompt, upload_ids } = await req.json();
@@ -21,7 +36,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // Associate uploads with this project
     if (upload_ids?.length) {
       await supabase
         .from('uploads')

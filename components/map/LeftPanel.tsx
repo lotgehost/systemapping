@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useMapStore } from '@/hooks/useMapStore';
-import GlassButton from '@/components/ui/GlassButton';
 import GlassInput from '@/components/ui/GlassInput';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { NodeType } from '@/types';
@@ -28,23 +27,11 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
   const [showAddNode, setShowAddNode] = useState(false);
   const [newNodeLabel, setNewNodeLabel] = useState('');
   const [newNodeType, setNewNodeType] = useState<NodeType>('variable');
-  const [copied, setCopied] = useState(false);
-
   const handleAddNode = () => {
     if (!newNodeLabel.trim()) return;
     addNode({ label: newNodeLabel.trim(), type: newNodeType, description: '', sources: [] });
     setNewNodeLabel('');
     setShowAddNode(false);
-  };
-
-  const handleShare = async () => {
-    if (shareUrl) {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      return;
-    }
-    onShare?.();
   };
 
   return (
@@ -68,9 +55,6 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
               <line x1="9" y1="3" x2="6" y2="9" stroke="rgba(0,0,0,0.2)" strokeWidth="0.75" />
             </svg>
           </div>
-          <span className="text-xs font-semibold tracking-widest uppercase text-[var(--text-muted)]">
-            System Mapper
-          </span>
         </div>
       </div>
 
@@ -209,23 +193,6 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
         )}
       </div>
 
-      {/* Footer actions */}
-      <div className="px-4 py-4 border-t border-[var(--glass-border)] space-y-2">
-        {!readOnly && (
-          <GlassButton
-            variant="ghost"
-            className="w-full text-xs py-2"
-            onClick={handleShare}
-            disabled={status !== 'ready'}
-          >
-            {copied
-              ? 'Link copied!'
-              : shareUrl
-              ? 'Copy link'
-              : 'Create share link'}
-          </GlassButton>
-        )}
-      </div>
     </div>
   );
 }

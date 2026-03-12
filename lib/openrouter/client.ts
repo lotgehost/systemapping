@@ -15,7 +15,7 @@ export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
       'X-Title': 'System Mapper',
     },
     body: JSON.stringify({
-      model: 'anthropic/claude-opus-4-5',
+      model: 'anthropic/claude-3.5-haiku',
       messages,
       max_tokens: 2000,
       temperature: 0.3,

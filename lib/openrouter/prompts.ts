@@ -51,25 +51,33 @@ Edge polarity definitions:
 Feedback loop rules:
 - A reinforcing loop (강화 루프) contains an even number of "-" polarities (or zero). Label as R1, R2, ...
 - A balancing loop (균형 루프) contains an odd number of "-" polarities. Label as B1, B2, ...
-- Identify at least 1 reinforcing loop and 1 balancing loop
-- Mark the loop_label field on ALL edges that form a feedback cycle
+- Identify at least 2 reinforcing loops AND 2 balancing loops
+- Mark the loop_label field on ALL edges that belong to a feedback cycle
+- Loops MUST share nodes — the same node should appear in multiple different loops to create a dense, interconnected web
 
-Rules:
-- Generate 6-9 nodes total
-- All node labels must be nouns/noun phrases that represent measurable or observable quantities (NOT actor names like "정부" or "기업" — instead use "정부 개입 수준", "기업 투자 규모")
+CRITICAL — Avoid linear maps (this is the most important instruction):
+- FORBIDDEN: long linear chains like A→B→C→D→E with no branches or cross-connections
+- REQUIRED: every node must have at least 1 incoming AND 1 outgoing edge
+- REQUIRED: at least 4 "hub" nodes with 3 or more total connections (in + out combined)
+- REQUIRED: cross-domain connections — variables from economic domain must connect to social/behavioral/psychological variables and vice versa. These cross-connections are what make the system interesting.
+- REQUIRED: at least 4 "shortcut" edges that bridge distant parts of the map (connecting nodes that are not adjacent in the main causal chain)
+- Think of the map as a SPIDER WEB: every part is connected to multiple other parts, not a CHAIN where you can trace a single line from start to finish.
+
+Quantity rules:
+- Generate 13-16 nodes total
+- Generate 24-32 edges total — this density is what creates the web-like non-linear feel
+- Use 2-3 lever nodes and 1-2 exogenous nodes max; the rest are variable nodes
+- All node labels must be nouns/noun phrases representing measurable or observable quantities (NOT actors: instead of "정부" use "정부 규제 강도"; instead of "기업" use "기업 투자 규모")
 - EVERY node must have at least 1 source entry — never leave sources as empty array []
 - For sources, cite specific real references: government statistics (통계청, 국토연구원, OECD, World Bank), academic papers, or policy reports. Include publication year.
   Example titles: "통계청 2023 주거실태조사", "국토연구원 청년주거 정책연구 (2022)", "OECD Education at a Glance 2023", "한국보건사회연구원 보고서"
-- The "url" field: ONLY include a URL if you are highly confident it is a real, publicly accessible URL. Well-known, stable URLs you may use:
-  - Korean statistics: "https://kosis.kr" (통계청 KOSIS), "https://data.go.kr" (공공데이터포털)
-  - Korean research: "https://www.krihs.re.kr" (국토연구원), "https://www.kihasa.re.kr" (한국보건사회연구원)
+- The "url" field: ONLY include a URL if you are highly confident it is a real, publicly accessible URL. Well-known stable URLs:
+  - Korean statistics: "https://kosis.kr", "https://data.go.kr"
+  - Korean research: "https://www.krihs.re.kr", "https://www.kihasa.re.kr"
   - International: "https://data.worldbank.org", "https://stats.oecd.org"
-  - If unsure about the exact URL, OMIT the url field entirely — do not guess
-- Use type "web" when you include a real URL above
-- Use type "ai_inference" when referencing from your training knowledge without a confirmed URL
-- Use type "upload" when citing uploaded user documents
-- The "excerpt" field must contain a specific fact, statistic, percentage, or finding — not a generic statement
-- Good excerpt examples: "2022년 청년(19-34세) 자가보유율 22.4% (통계청)", "OECD 평균 대비 한국 가처분소득 대비 주거비 비율 32.1% (2021)"
+  - If unsure, OMIT the url field entirely
+- Use type "web" when you include a real URL; "ai_inference" otherwise; "upload" for user documents
+- The "excerpt" field must contain a specific fact, statistic, or finding (e.g., "2022년 청년 자가보유율 22.4%")
 - All labels and descriptions must be in Korean
 - Focus on structural causal relationships, not surface symptoms`;
 

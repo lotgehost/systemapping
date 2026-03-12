@@ -33,13 +33,21 @@ const ResponseSchema = z.object({
 });
 
 export function parseAIResponse(raw: string): { nodes: SystemNode[]; edges: SystemEdge[] } {
-  // Strip markdown fences if present
   let cleaned = raw.trim();
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+
+  // Strip markdown fences
+  cleaned = cleaned.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+
+  // Try direct parse, then extract first JSON object as fallback
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch {
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON found in AI response');
+    parsed = JSON.parse(match[0]);
   }
 
-  const parsed = JSON.parse(cleaned);
   const validated = ResponseSchema.parse(parsed);
 
   return {

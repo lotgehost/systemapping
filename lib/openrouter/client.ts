@@ -15,7 +15,7 @@ export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
       'X-Title': 'System Mapper',
     },
     body: JSON.stringify({
-      model: 'google/gemini-2.0-flash-001',
+      model: 'anthropic/claude-opus-4-5',
       messages,
       max_tokens: 2000,
       temperature: 0.3,

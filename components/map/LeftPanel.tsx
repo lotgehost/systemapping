@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useMapStore } from '@/hooks/useMapStore';
+import GlassButton from '@/components/ui/GlassButton';
 import GlassInput from '@/components/ui/GlassInput';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { NodeType } from '@/types';

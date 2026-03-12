@@ -1,33 +1,33 @@
 'use client';
 
-import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge, Position } from '@xyflow/react';
+import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge, Position, useInternalNode } from '@xyflow/react';
 import { useMapStore, MapEdge } from '@/hooks/useMapStore';
 
-// Estimated node half-dimensions (text-only pill nodes)
-const HW = 58; // half-width
-const HH = 16; // half-height
-
-function computeEndpoints(
-  srcX: number, srcY: number, // source node CENTER
-  tgtX: number, tgtY: number, // target node CENTER
+/** Returns the exact center of the closest side of the source node pointing toward target,
+ *  and the matching entry side center on the target node. */
+function getSideCenter(
+  srcX: number, srcY: number, srcW: number, srcH: number,
+  tgtX: number, tgtY: number, tgtW: number, tgtH: number,
 ) {
-  const dx = tgtX - srcX;
-  const dy = tgtY - srcY;
-  const isHorizontal = Math.abs(dx) >= Math.abs(dy);
+  // Centers of each node
+  const scx = srcX + srcW / 2;
+  const scy = srcY + srcH / 2;
+  const tcx = tgtX + tgtW / 2;
+  const tcy = tgtY + tgtH / 2;
 
-  // Angle-based offset keeps multiple edges on the same side from stacking
-  if (isHorizontal) {
-    // Source exits right or left; distribute vertically by angle
-    const offsetY = Math.sign(dy) * Math.min(Math.abs(dy) * 0.25, HH * 0.85);
-    return dx > 0
-      ? { sx: srcX + HW, sy: srcY + offsetY, sp: Position.Right, tx: tgtX - HW, ty: tgtY - offsetY, tp: Position.Left }
-      : { sx: srcX - HW, sy: srcY + offsetY, sp: Position.Left,  tx: tgtX + HW, ty: tgtY - offsetY, tp: Position.Right };
+  const dx = tcx - scx;
+  const dy = tcy - scy;
+
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    // Horizontal dominant → exit right or left
+    return dx >= 0
+      ? { sx: srcX + srcW, sy: scy, sp: Position.Right, tx: tgtX,        ty: tcy, tp: Position.Left  }
+      : { sx: srcX,        sy: scy, sp: Position.Left,  tx: tgtX + tgtW, ty: tcy, tp: Position.Right };
   } else {
-    // Source exits top or bottom; distribute horizontally by angle
-    const offsetX = Math.sign(dx) * Math.min(Math.abs(dx) * 0.25, HW * 0.85);
-    return dy > 0
-      ? { sx: srcX + offsetX, sy: srcY + HH, sp: Position.Bottom, tx: tgtX - offsetX, ty: tgtY - HH, tp: Position.Top }
-      : { sx: srcX + offsetX, sy: srcY - HH, sp: Position.Top,    tx: tgtX - offsetX, ty: tgtY + HH, tp: Position.Bottom };
+    // Vertical dominant → exit bottom or top
+    return dy >= 0
+      ? { sx: scx, sy: srcY + srcH, sp: Position.Bottom, tx: tcx, ty: tgtY,        tp: Position.Top    }
+      : { sx: scx, sy: srcY,        sp: Position.Top,    tx: tcx, ty: tgtY + tgtH, tp: Position.Bottom };
   }
 }
 
@@ -39,24 +39,28 @@ export default function LabeledEdge({
   selected,
 }: EdgeProps<MapEdge>) {
   const selectEdge = useMapStore((s) => s.selectEdge);
-  const nodes = useMapStore((s) => s.nodes);
 
-  const srcNode = nodes.find((n) => n.id === source);
-  const tgtNode = nodes.find((n) => n.id === target);
+  // Get actual measured positions from React Flow internals
+  const srcInternal = useInternalNode(source);
+  const tgtInternal = useInternalNode(target);
 
   const polarity = data?.polarity ?? '+';
   const isPositive = polarity === '+';
   const strokeColor = selected ? '#1d4ed8' : 'rgba(30,30,30,0.6)';
 
-  // Fallback: shouldn't happen but avoids crash
-  if (!srcNode || !tgtNode) return null;
+  if (!srcInternal || !tgtInternal) return null;
 
-  const srcCX = srcNode.position.x + HW;
-  const srcCY = srcNode.position.y + HH;
-  const tgtCX = tgtNode.position.x + HW;
-  const tgtCY = tgtNode.position.y + HH;
+  const srcAbs = srcInternal.internals.positionAbsolute;
+  const srcW   = srcInternal.measured?.width  ?? 100;
+  const srcH   = srcInternal.measured?.height ?? 30;
+  const tgtAbs = tgtInternal.internals.positionAbsolute;
+  const tgtW   = tgtInternal.measured?.width  ?? 100;
+  const tgtH   = tgtInternal.measured?.height ?? 30;
 
-  const { sx, sy, sp, tx, ty, tp } = computeEndpoints(srcCX, srcCY, tgtCX, tgtCY);
+  const { sx, sy, sp, tx, ty, tp } = getSideCenter(
+    srcAbs.x, srcAbs.y, srcW, srcH,
+    tgtAbs.x, tgtAbs.y, tgtW, tgtH,
+  );
 
   const [edgePath] = getBezierPath({
     sourceX: sx, sourceY: sy, sourcePosition: sp,
@@ -64,9 +68,12 @@ export default function LabeledEdge({
     curvature: 0.35,
   });
 
-  // Polarity sign: 75% of the way toward target along the straight line
-  const px = sx * 0.3 + tx * 0.7;
-  const py = sy * 0.3 + ty * 0.7;
+  // +/− label: right at the arrowhead (8px back from target along the straight line)
+  const dist = Math.sqrt((tx - sx) ** 2 + (ty - sy) ** 2) || 1;
+  const ux = (sx - tx) / dist;
+  const uy = (sy - ty) / dist;
+  const px = tx + ux * 14;
+  const py = ty + uy * 14;
 
   return (
     <>

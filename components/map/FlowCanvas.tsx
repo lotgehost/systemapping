@@ -192,6 +192,8 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
         fitViewOptions={{ padding: 0.3 }}
         nodesDraggable={!readOnly}
         nodesConnectable={!readOnly}
+        nodeDragThreshold={4}
+        dragHandle=".node-drag-handle"
         elementsSelectable={!readOnly}
         deleteKeyCode={readOnly ? null : 'Backspace'}
         proOptions={{ hideAttribution: true }}

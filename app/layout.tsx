@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, DM_Sans } from 'next/font/google';
 import './globals.css';
+import SignOutButton from '@/components/SignOutButton';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -28,7 +29,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <SignOutButton />
+        {children}
+      </body>
     </html>
   );
 }

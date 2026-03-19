@@ -28,6 +28,7 @@ interface MapStore {
   edges: MapEdge[];
   selectedNodeId: string | null;
   selectedEdgeId: string | null;
+  selectedLoop: string | null;
   status: 'idle' | 'generating' | 'ready' | 'error';
   errorMessage: string;
 
@@ -46,6 +47,7 @@ interface MapStore {
 
   selectNode: (id: string | null) => void;
   selectEdge: (id: string | null) => void;
+  selectLoop: (label: string | null) => void;
 }
 
 export const useMapStore = create<MapStore>((set, get) => ({
@@ -55,6 +57,7 @@ export const useMapStore = create<MapStore>((set, get) => ({
   edges: [],
   selectedNodeId: null,
   selectedEdgeId: null,
+  selectedLoop: null,
   status: 'idle',
   errorMessage: '',
 
@@ -143,6 +146,7 @@ export const useMapStore = create<MapStore>((set, get) => ({
       ),
     })),
 
-  selectNode: (id) => set({ selectedNodeId: id, selectedEdgeId: null }),
-  selectEdge: (id) => set({ selectedEdgeId: id, selectedNodeId: null }),
+  selectNode: (id) => set({ selectedNodeId: id, selectedEdgeId: null, selectedLoop: null }),
+  selectEdge: (id) => set({ selectedEdgeId: id, selectedNodeId: null, selectedLoop: null }),
+  selectLoop: (label) => set({ selectedLoop: label, selectedNodeId: null, selectedEdgeId: null }),
 }));

@@ -4,7 +4,8 @@ import { chatCompletion } from '@/lib/openrouter/client';
 import { parseAIResponse } from '@/lib/openrouter/parser';
 import { SYSTEM_PROMPT, buildUserPrompt } from '@/lib/openrouter/prompts';
 
-export const maxDuration = 60;
+export const runtime = 'edge';
+export const maxDuration = 30;
 
 export async function POST(
   _req: NextRequest,
@@ -42,9 +43,10 @@ export async function POST(
 
   const encoder = new TextEncoder();
 
-  const stream = new ReadableStream({
+  const responseStream = new ReadableStream({
     async start(controller) {
       const send = (data: object) => {
+        console.log('[generate] send:', JSON.stringify(data));
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
       };
 
@@ -55,13 +57,18 @@ export async function POST(
 
       try {
         const userPrompt = buildUserPrompt(project.prompt, uploadedTexts);
+        console.log('[generate] calling chatCompletion...');
 
         const rawResponse = await chatCompletion([
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: userPrompt },
-        ], 3500);
+        ], 8000, 'google/gemini-2.0-flash-lite-001');
+
+        console.log('[generate] chatCompletion returned, length:', rawResponse.length);
+        console.log('[generate] raw (first 200):', rawResponse.slice(0, 200));
 
         const { nodes, edges } = parseAIResponse(rawResponse);
+        console.log('[generate] parsed:', nodes.length, 'nodes,', edges.length, 'edges');
 
         // Save to DB
         await supabase
@@ -71,6 +78,7 @@ export async function POST(
 
         send({ type: 'done', nodes, edges });
       } catch (err: unknown) {
+        console.error('[generate] error:', err);
         const msg = err instanceof Error ? err.message : 'Unknown error';
         await supabase.from('projects').update({ status: 'error' }).eq('id', id);
         send({ type: 'error', message: msg });
@@ -82,7 +90,7 @@ export async function POST(
     },
   });
 
-  return new Response(stream, { headers: sseHeaders() });
+  return new Response(responseStream, { headers: sseHeaders() });
 }
 
 function sseHeaders() {

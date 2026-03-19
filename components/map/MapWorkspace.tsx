@@ -16,12 +16,13 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
   const projectId = useMapStore((s) => s.projectId);
   const selectedNodeId = useMapStore((s) => s.selectedNodeId);
   const selectedEdgeId = useMapStore((s) => s.selectedEdgeId);
+  const selectedLoop = useMapStore((s) => s.selectedLoop);
   const [shareUrl, setShareUrl] = useState<string | undefined>();
   const [rightTab, setRightTab] = useState<'chat' | 'detail'>('chat');
 
   useAutoSave();
 
-  const hasSelection = !!(selectedNodeId || selectedEdgeId);
+  const hasSelection = !!(selectedNodeId || selectedEdgeId || selectedLoop);
 
   // Auto-switch to detail tab when something is selected
   useEffect(() => {

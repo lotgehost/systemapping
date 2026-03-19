@@ -3,23 +3,41 @@
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
-const NODE_STYLES: Record<string, { color: string; selectedColor: string; label: string }> = {
-  variable:  { color: '#111827', selectedColor: '#2563eb', label: '' },
-  exogenous: { color: '#6d28d9', selectedColor: '#7c3aed', label: 'EXT' },
-  lever:     { color: '#065f46', selectedColor: '#059669', label: 'LEV' },
+const NODE_STYLES: Record<string, { color: string; selectedColor: string; loopColor: string; label: string }> = {
+  variable:  { color: '#111827', selectedColor: '#2563eb', loopColor: '#1d4ed8', label: '' },
+  exogenous: { color: '#6d28d9', selectedColor: '#7c3aed', loopColor: '#7c3aed', label: 'EXT' },
+  lever:     { color: '#065f46', selectedColor: '#059669', loopColor: '#059669', label: 'LEV' },
 };
 
 const h = { background: 'transparent', border: 'none', width: 1, height: 1, minWidth: 0, minHeight: 0 };
 
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
   const selectNode = useMapStore((s) => s.selectNode);
+  const selectedLoop = useMapStore((s) => s.selectedLoop);
+  const edges = useMapStore((s) => s.edges);
   const style = NODE_STYLES[String(data.nodeType)] ?? NODE_STYLES.variable;
+
+  const inSelectedLoop = selectedLoop
+    ? edges.some((e) => e.data?.loop_label === selectedLoop && (e.source === id || e.target === id))
+    : false;
+  const dimmed = selectedLoop && !inSelectedLoop;
+
+  const textColor = selected
+    ? style.selectedColor
+    : inSelectedLoop
+    ? style.loopColor
+    : style.color;
 
   return (
     <div
       onClick={() => selectNode(id)}
       className="relative cursor-pointer select-none"
-      style={{ minWidth: 60, maxWidth: 130 }}
+      style={{
+        minWidth: 60,
+        maxWidth: 130,
+        opacity: dimmed ? 0.1 : 1,
+        transition: 'opacity 0.2s',
+      }}
     >
       <Handle type="target" position={Position.Top}    style={{ ...h, top: '50%',    left: '50%' }} />
       <Handle type="target" position={Position.Bottom} style={{ ...h, bottom: '50%', left: '50%' }} />
@@ -42,10 +60,12 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
         <span
           className="text-[13px] font-semibold leading-snug text-center"
           style={{
-            color: selected ? style.selectedColor : style.color,
-            textDecoration: selected ? 'underline' : 'none',
-            textDecorationColor: style.selectedColor,
+            color: textColor,
+            textDecoration: selected || inSelectedLoop ? 'underline' : 'none',
+            textDecorationColor: textColor,
             textUnderlineOffset: '3px',
+            fontWeight: inSelectedLoop ? 700 : 600,
+            transition: 'color 0.2s',
           }}
         >
           {String(data.label)}

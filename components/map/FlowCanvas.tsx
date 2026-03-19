@@ -39,6 +39,8 @@ const edgeTypes: EdgeTypes = {
 function LoopLabelOverlay() {
   const nodes = useMapStore((s) => s.nodes);
   const edges = useMapStore((s) => s.edges);
+  const selectedLoop = useMapStore((s) => s.selectedLoop);
+  const selectLoop = useMapStore((s) => s.selectLoop);
   const { x: vpX, y: vpY, zoom } = useViewport();
 
   const loopLabels = useMemo(() => {
@@ -88,13 +90,17 @@ function LoopLabelOverlay() {
         return (
           <div
             key={label}
+            onClick={() => selectLoop(selectedLoop === label ? null : label)}
             style={{
               position: 'absolute',
               left: px,
               top: py,
               transform: 'translate(-50%, -50%)',
-              pointerEvents: 'none',
+              pointerEvents: 'all',
               zIndex: 5,
+              cursor: 'pointer',
+              opacity: selectedLoop && selectedLoop !== label ? 0.3 : 1,
+              transition: 'opacity 0.2s',
             }}
           >
             <svg width="44" height="44" viewBox="0 0 44 44">
@@ -149,12 +155,14 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
   const onConnect = useMapStore((s) => s.onConnect);
   const selectNode = useMapStore((s) => s.selectNode);
   const selectEdge = useMapStore((s) => s.selectEdge);
+  const selectLoop = useMapStore((s) => s.selectLoop);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePaneClick = useCallback(() => {
     selectNode(null);
     selectEdge(null);
-  }, [selectNode, selectEdge]);
+    selectLoop(null);
+  }, [selectNode, selectEdge, selectLoop]);
 
   return (
     <div ref={containerRef} className="relative w-full h-full">

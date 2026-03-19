@@ -1,6 +1,6 @@
 'use client';
 
-import { EdgeProps, getBezierPath, EdgeLabelRenderer, BaseEdge, Position, useInternalNode } from '@xyflow/react';
+import { EdgeProps, getBezierPath, EdgeLabelRenderer, Position, useInternalNode } from '@xyflow/react';
 import { useMapStore, MapEdge } from '@/hooks/useMapStore';
 
 /** Returns the exact center of the closest side of the source node pointing toward target,
@@ -39,6 +39,7 @@ export default function LabeledEdge({
   selected,
 }: EdgeProps<MapEdge>) {
   const selectEdge = useMapStore((s) => s.selectEdge);
+  const selectedLoop = useMapStore((s) => s.selectedLoop);
 
   // Get actual measured positions from React Flow internals
   const srcInternal = useInternalNode(source);
@@ -46,7 +47,18 @@ export default function LabeledEdge({
 
   const polarity = data?.polarity ?? '+';
   const isPositive = polarity === '+';
-  const strokeColor = selected ? '#1d4ed8' : 'rgba(30,30,30,0.6)';
+
+  const loopLabel = data?.loop_label;
+  const inSelectedLoop = selectedLoop && loopLabel === selectedLoop;
+  const dimmed = selectedLoop && !inSelectedLoop;
+
+  const strokeColor = selected
+    ? '#1d4ed8'
+    : inSelectedLoop
+    ? (isPositive ? '#1d4ed8' : '#dc2626')
+    : 'rgba(30,30,30,0.6)';
+  const strokeWidth = inSelectedLoop ? 3 : selected ? 2.5 : 1.2;
+  const opacity = dimmed ? 0.07 : 1;
 
   if (!srcInternal || !tgtInternal) return null;
 
@@ -77,11 +89,25 @@ export default function LabeledEdge({
 
   return (
     <>
-      <BaseEdge
+      {/* Visible path */}
+      <path
         id={id}
-        path={edgePath}
-        style={{ stroke: strokeColor, strokeWidth: selected ? 2 : 1.2, fill: 'none' }}
+        d={edgePath}
+        fill="none"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
         markerEnd="url(#cld-arrow)"
+        className="react-flow__edge-path"
+        style={{ opacity, transition: 'opacity 0.2s, stroke 0.2s' }}
+      />
+      {/* Wide invisible interaction path for easy clicking */}
+      <path
+        d={edgePath}
+        fill="none"
+        strokeOpacity={0}
+        strokeWidth={20}
+        className="react-flow__edge-interaction"
+        style={{ cursor: 'pointer' }}
         onClick={() => selectEdge(id)}
       />
       <EdgeLabelRenderer>
@@ -97,6 +123,8 @@ export default function LabeledEdge({
             color: isPositive ? '#1d4ed8' : '#dc2626',
             cursor: 'pointer',
             userSelect: 'none',
+            opacity,
+            transition: 'opacity 0.2s',
           }}
         >
           {isPositive ? '+' : '−'}

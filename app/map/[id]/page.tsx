@@ -23,6 +23,7 @@ export default function MapPage({ params }: { params: Promise<{ id: string }> })
       if (!res.ok) { router.push('/'); return; }
 
       const project = await res.json();
+      console.log('[page] project loaded:', project.status, 'nodes:', project.nodes?.length);
       setPrompt(project.prompt);
 
       if (project.status === 'ready' && project.nodes?.length) {

@@ -35,6 +35,18 @@ export function useAutoSave() {
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstRender = useRef(true);
+  const pendingRef = useRef<{ nodes: typeof nodes; edges: typeof edges; projectId: string } | null>(null);
+
+  const save = (projectId: string, nodes: typeof pendingRef.current['nodes'], edges: typeof pendingRef.current['edges']) => {
+    fetch(`/api/projects/${projectId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nodes: nodes.map(toSystemNode),
+        edges: edges.map(toSystemEdge),
+      }),
+    }).catch(() => {});
+  };
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -43,20 +55,15 @@ export function useAutoSave() {
     }
     if (!projectId || status !== 'ready') return;
 
+    pendingRef.current = { nodes, edges, projectId };
+
     if (timerRef.current) clearTimeout(timerRef.current);
 
-    timerRef.current = setTimeout(async () => {
-      try {
-        await fetch(`/api/projects/${projectId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nodes: nodes.map(toSystemNode),
-            edges: edges.map(toSystemEdge),
-          }),
-        });
-      } catch {
-        // silent fail — user can retry manually
+    timerRef.current = setTimeout(() => {
+      if (pendingRef.current) {
+        const { projectId, nodes, edges } = pendingRef.current;
+        save(projectId, nodes, edges);
+        pendingRef.current = null;
       }
     }, 1500);
 
@@ -64,4 +71,14 @@ export function useAutoSave() {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [nodes, edges, projectId, status]);
+
+  // 페이지 이동 시 즉시 저장
+  useEffect(() => {
+    return () => {
+      if (pendingRef.current) {
+        const { projectId, nodes, edges } = pendingRef.current;
+        save(projectId, nodes, edges);
+      }
+    };
+  }, []);
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
@@ -11,7 +10,6 @@ const NODE_STYLES: Record<string, { color: string; selectedColor: string; loopCo
 };
 
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
-  const [hovered, setHovered] = useState(false);
   const selectNode = useMapStore((s) => s.selectNode);
   const selectedLoop = useMapStore((s) => s.selectedLoop);
   const edges = useMapStore((s) => s.edges);
@@ -29,12 +27,10 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
     : style.color;
 
   return (
+    // 외부 영역: crosshair 커서 + 핸들 (연결용)
     <div
-      onClick={() => selectNode(id)}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       className="relative select-none"
-      style={{ minWidth: 60, maxWidth: 130, opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s', cursor: hovered ? 'crosshair' : 'pointer' }}
+      style={{ padding: 12, cursor: 'crosshair', opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s' }}
     >
       <Handle type="target" position={Position.Top} />
       <Handle type="target" position={Position.Bottom} />
@@ -45,7 +41,12 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
       <Handle type="source" position={Position.Left}   id="sl" />
       <Handle type="source" position={Position.Right}  id="sr" />
 
-      <div className="node-drag-handle flex flex-col items-center text-center cursor-grab active:cursor-grabbing">
+      {/* 내부 텍스트 영역: grab 커서 + 노드 이동 */}
+      <div
+        onClick={() => selectNode(id)}
+        className="node-drag-handle flex flex-col items-center text-center"
+        style={{ cursor: 'grab', minWidth: 60, maxWidth: 130 }}
+      >
         {style.label && (
           <span
             className="text-[8px] font-semibold tracking-widest uppercase leading-none mb-0.5"

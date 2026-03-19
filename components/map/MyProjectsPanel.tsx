@@ -46,7 +46,7 @@ export default function MyProjectsPanel() {
           <rect x="0.5" y="6.5" width="4" height="4" rx="1" stroke="currentColor" strokeWidth="1.2"/>
           <rect x="6.5" y="6.5" width="4" height="4" rx="1" stroke="currentColor" strokeWidth="1.2"/>
         </svg>
-        My Projects
+        Projects
       </button>
 
       {/* Dropdown */}
@@ -62,7 +62,7 @@ export default function MyProjectsPanel() {
         >
           <div className="px-4 py-3 border-b border-[rgba(0,0,0,0.06)]">
             <p className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: 'rgba(30,30,40,0.4)' }}>
-              My Projects
+              Projects
             </p>
           </div>
 

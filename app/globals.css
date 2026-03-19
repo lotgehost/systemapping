@@ -193,22 +193,13 @@ body {
 
 .react-flow__handle {
   opacity: 0 !important;
-  width: 5px !important;
-  height: 5px !important;
-  background: rgba(150, 150, 150, 0.6) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   pointer-events: all !important;
   cursor: crosshair !important;
-  transition: opacity 0.15s ease !important;
-}
-
-.react-flow__node:hover .react-flow__handle {
-  opacity: 1 !important;
-}
-
-.react-flow__handle:hover {
-  background: rgba(150, 150, 150, 0.9) !important;
 }
 
 /* ─── Focus ring ─────────────────────────────────────────────── */

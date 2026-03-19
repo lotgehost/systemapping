@@ -26,7 +26,8 @@ export default function MapPage({ params }: { params: Promise<{ id: string }> })
       console.log('[page] project loaded:', project.status, 'nodes:', project.nodes?.length);
       setPrompt(project.prompt);
 
-      if (project.status === 'ready' && project.nodes?.length) {
+      if (project.nodes?.length) {
+        // 저장된 노드가 있으면 status와 무관하게 불러옴
         const { applyDagreLayout } = await import('@/lib/utils/layout');
         const flowNodes: MapNode[] = (project.nodes as SystemNode[]).map((n) => ({
           id: n.id,
@@ -46,6 +47,7 @@ export default function MapPage({ params }: { params: Promise<{ id: string }> })
         useMapStore.setState({ nodes: laidOut, edges: flowEdges });
         setStatus('ready');
       } else {
+        // 노드가 없을 때만 새로 생성
         generate(id);
       }
     }

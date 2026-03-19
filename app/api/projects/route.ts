@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getUser } from '@/lib/supabase/server-auth';
 
 export async function GET() {
   try {
+    const user = await getUser();
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
     const supabase = createClient();
     const { data, error } = await supabase
       .from('projects')
       .select('id, prompt, status, created_at')
+      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(20);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -18,6 +23,9 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await getUser();
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
     const { prompt, upload_ids } = await req.json();
 
     if (!prompt?.trim()) {
@@ -28,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await supabase
       .from('projects')
-      .insert({ prompt: prompt.trim(), status: 'pending' })
+      .insert({ prompt: prompt.trim(), status: 'pending', user_id: user.id })
       .select('id')
       .single();
 

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 import { useMapStore } from '@/hooks/useMapStore';
 import GlassButton from '@/components/ui/GlassButton';
 import GlassInput from '@/components/ui/GlassInput';
@@ -20,6 +22,7 @@ interface LeftPanelProps {
 }
 
 export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftPanelProps) {
+  const router = useRouter();
   const prompt = useMapStore((s) => s.prompt);
   const status = useMapStore((s) => s.status);
   const errorMessage = useMapStore((s) => s.errorMessage);
@@ -172,6 +175,21 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
         )}
       </div>
 
+      {/* Sign out */}
+      {!readOnly && (
+        <div className="px-4 py-3 border-t border-[var(--glass-border)] flex-shrink-0">
+          <button
+            onClick={async () => {
+              await createClient().auth.signOut();
+              router.push('/auth');
+              router.refresh();
+            }}
+            className="w-full text-left text-[11px] text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors cursor-pointer px-1"
+          >
+            로그아웃
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import LeftPanel from './LeftPanel';
 import FlowCanvas from './FlowCanvas';
 import DetailPanel from './DetailPanel';
 import ChatPanel from './ChatPanel';
+import MyProjectsPanel from './MyProjectsPanel';
 import { useMapStore } from '@/hooks/useMapStore';
 import { useState, useEffect } from 'react';
 
@@ -64,6 +65,7 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
 
       {/* Main canvas */}
       <div className="flex-1 overflow-hidden relative">
+        {!readOnly && <MyProjectsPanel />}
         <FlowCanvas readOnly={readOnly} />
       </div>
 

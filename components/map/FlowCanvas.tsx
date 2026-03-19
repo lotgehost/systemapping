@@ -164,6 +164,10 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
     selectLoop(null);
   }, [selectNode, selectEdge, selectLoop]);
 
+  const handleEdgeClick = useCallback((_: React.MouseEvent, edge: { id: string }) => {
+    selectEdge(edge.id);
+  }, [selectEdge]);
+
   return (
     <div ref={containerRef} className="relative w-full h-full">
       {/* Global SVG defs for arrowhead marker */}
@@ -181,6 +185,7 @@ function FlowInner({ readOnly }: { readOnly: boolean }) {
         onEdgesChange={readOnly ? undefined : onEdgesChange}
         onConnect={readOnly ? undefined : onConnect}
         onPaneClick={handlePaneClick}
+        onEdgeClick={readOnly ? undefined : handleEdgeClick}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView

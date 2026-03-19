@@ -9,8 +9,6 @@ const NODE_STYLES: Record<string, { color: string; selectedColor: string; loopCo
   lever:     { color: '#065f46', selectedColor: '#059669', loopColor: '#059669', label: 'LEV' },
 };
 
-const h = { background: 'transparent', border: 'none', width: 1, height: 1, minWidth: 0, minHeight: 0 };
-
 export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
   const selectNode = useMapStore((s) => s.selectNode);
   const selectedLoop = useMapStore((s) => s.selectedLoop);
@@ -32,21 +30,16 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
     <div
       onClick={() => selectNode(id)}
       className="relative cursor-pointer select-none"
-      style={{
-        minWidth: 60,
-        maxWidth: 130,
-        opacity: dimmed ? 0.1 : 1,
-        transition: 'opacity 0.2s',
-      }}
+      style={{ minWidth: 60, maxWidth: 130, opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s' }}
     >
-      <Handle type="target" position={Position.Top}    style={{ ...h, top: '50%',    left: '50%' }} />
-      <Handle type="target" position={Position.Bottom} style={{ ...h, bottom: '50%', left: '50%' }} />
-      <Handle type="target" position={Position.Left}   style={{ ...h, left: '50%',   top: '50%' }} />
-      <Handle type="target" position={Position.Right}  style={{ ...h, right: '50%',  top: '50%' }} />
-      <Handle type="source" position={Position.Top}    style={{ ...h, top: '50%',    left: '50%' }} />
-      <Handle type="source" position={Position.Bottom} style={{ ...h, bottom: '50%', left: '50%' }} />
-      <Handle type="source" position={Position.Left}   style={{ ...h, left: '50%',   top: '50%' }} />
-      <Handle type="source" position={Position.Right}  style={{ ...h, right: '50%',  top: '50%' }} />
+      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Bottom} />
+      <Handle type="target" position={Position.Left} />
+      <Handle type="target" position={Position.Right} />
+      <Handle type="source" position={Position.Top}    id="st" />
+      <Handle type="source" position={Position.Bottom} id="sb" />
+      <Handle type="source" position={Position.Left}   id="sl" />
+      <Handle type="source" position={Position.Right}  id="sr" />
 
       <div className="flex flex-col items-center text-center">
         {style.label && (

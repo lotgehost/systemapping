@@ -49,51 +49,44 @@ export default function AuthPage() {
         background: 'radial-gradient(ellipse 120% 80% at 60% 20%, #fef3c7 0%, #fde68a 15%, #fed7aa 30%, #fecaca 45%, #e9d5ff 65%, #c7d2fe 80%, #bfdbfe 100%)',
       }}
     >
-      <div className="w-full max-w-[380px] animate-fade-in">
-        <div className="mb-8 space-y-1">
+      <div className="w-full max-w-[300px] animate-fade-in">
+        <div className="mb-8">
           <h1
             className="text-[24px] tracking-tight"
             style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, color: 'rgba(15,15,20,0.85)' }}
           >
             {mode === 'signin' ? 'Sign in' : 'Create account'}
           </h1>
-          <p className="text-[13px]" style={{ color: 'rgba(30,30,40,0.45)' }}>
-            {mode === 'signin' ? '계정에 로그인하세요.' : '무료로 시작하세요.'}
-          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          <div>
-            <input
-              type="email"
-              placeholder="이메일"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
-              style={{
-                background: 'rgba(255,255,255,0.7)',
-                border: '1px solid rgba(0,0,0,0.1)',
-                color: 'var(--text-primary)',
-              }}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
-              style={{
-                background: 'rgba(255,255,255,0.7)',
-                border: '1px solid rgba(0,0,0,0.1)',
-                color: 'var(--text-primary)',
-              }}
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: '1px solid rgba(0,0,0,0.1)',
+              color: 'var(--text-primary)',
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+            className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: '1px solid rgba(0,0,0,0.1)',
+              color: 'var(--text-primary)',
+            }}
+          />
 
           {message && (
             <p
@@ -115,18 +108,18 @@ export default function AuthPage() {
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
           >
-            {loading ? '...' : mode === 'signin' ? '로그인' : '회원가입'}
+            {loading ? '...' : mode === 'signin' ? 'Sign in' : 'Sign up'}
           </button>
         </form>
 
         <p className="mt-5 text-center text-[12px]" style={{ color: 'rgba(30,30,40,0.45)' }}>
-          {mode === 'signin' ? '계정이 없으신가요?' : '이미 계정이 있으신가요?'}{' '}
+          {mode === 'signin' ? "Don't have an account?" : 'Already have an account?'}{' '}
           <button
             onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setMessage(null); }}
             className="font-semibold underline cursor-pointer"
             style={{ color: 'rgba(15,15,20,0.7)' }}
           >
-            {mode === 'signin' ? '회원가입' : '로그인'}
+            {mode === 'signin' ? 'Sign up' : 'Sign in'}
           </button>
         </p>
       </div>

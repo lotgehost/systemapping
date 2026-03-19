@@ -150,7 +150,6 @@ export default function ChatPanel() {
       {/* Header */}
       <div className="px-5 py-4 border-b border-[var(--glass-border)] flex-shrink-0">
         <p className="text-[10px] font-semibold tracking-widest uppercase text-[var(--text-muted)]">AI Assistant</p>
-        <p className="text-xs text-[var(--text-muted)] mt-0.5">맵에 대해 묻거나 수정을 요청하세요</p>
       </div>
 
       {/* Messages */}
@@ -224,7 +223,7 @@ export default function ChatPanel() {
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
             }}
-            placeholder="맵에 대해 묻거나 수정을 요청하세요..."
+            placeholder="Ask about this map..."
             rows={2}
             className="flex-1 resize-none text-xs rounded-lg px-3 py-2 outline-none transition-all duration-150"
             style={{ background: 'var(--glass-bg-strong)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}

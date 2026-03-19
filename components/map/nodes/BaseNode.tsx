@@ -32,14 +32,14 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
       className="relative cursor-pointer select-none"
       style={{ minWidth: 60, maxWidth: 130, opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s' }}
     >
-      <Handle type="target" position={Position.Top} />
-      <Handle type="target" position={Position.Bottom} />
-      <Handle type="target" position={Position.Left} />
-      <Handle type="target" position={Position.Right} />
-      <Handle type="source" position={Position.Top}    id="st" />
-      <Handle type="source" position={Position.Bottom} id="sb" />
-      <Handle type="source" position={Position.Left}   id="sl" />
-      <Handle type="source" position={Position.Right}  id="sr" />
+      <Handle type="target" position={Position.Top}    style={{ top: -14 }} />
+      <Handle type="target" position={Position.Bottom} style={{ bottom: -14 }} />
+      <Handle type="target" position={Position.Left}   style={{ left: -14 }} />
+      <Handle type="target" position={Position.Right}  style={{ right: -14 }} />
+      <Handle type="source" position={Position.Top}    id="st" style={{ top: -14 }} />
+      <Handle type="source" position={Position.Bottom} id="sb" style={{ bottom: -14 }} />
+      <Handle type="source" position={Position.Left}   id="sl" style={{ left: -14 }} />
+      <Handle type="source" position={Position.Right}  id="sr" style={{ right: -14 }} />
 
       <div className="flex flex-col items-center text-center">
         {style.label && (

@@ -33,18 +33,9 @@ export default function BaseNode({ id, data, selected }: NodeProps<MapNode>) {
       onClick={() => selectNode(id)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative cursor-pointer select-none"
-      style={{ minWidth: 60, maxWidth: 130, opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s' }}
+      className="relative select-none"
+      style={{ minWidth: 60, maxWidth: 130, opacity: dimmed ? 0.1 : 1, transition: 'opacity 0.2s', cursor: hovered ? 'crosshair' : 'pointer' }}
     >
-      {/* 십자 모양 연결 표시 */}
-      {hovered && (
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
-          <svg width="20" height="20" viewBox="0 0 20 20" style={{ opacity: 0.25 }}>
-            <line x1="10" y1="2" x2="10" y2="18" stroke="#111" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="2" y1="10" x2="18" y2="10" stroke="#111" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </div>
-      )}
       <Handle type="target" position={Position.Top}    style={{ top: -14 }} />
       <Handle type="target" position={Position.Bottom} style={{ bottom: -14 }} />
       <Handle type="target" position={Position.Left}   style={{ left: -14 }} />

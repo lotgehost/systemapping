@@ -70,6 +70,7 @@ export const useMapStore = create<MapStore>((set, get) => ({
       id: n.id,
       type: n.type,
       position: { x: 0, y: 0 },
+      dragHandle: '.node-drag-handle',
       data: {
         label: n.label,
         nodeType: n.type,
@@ -120,6 +121,7 @@ export const useMapStore = create<MapStore>((set, get) => ({
       id,
       type: node.type,
       position: { x: Math.random() * 400, y: Math.random() * 300 },
+      dragHandle: '.node-drag-handle',
       data: {
         label: node.label,
         nodeType: node.type,

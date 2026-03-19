@@ -32,6 +32,7 @@ export default function MapPage({ params }: { params: Promise<{ id: string }> })
           id: n.id,
           type: n.type,
           position: { x: 0, y: 0 },
+          dragHandle: '.node-drag-handle',
           data: { label: n.label, nodeType: n.type, description: n.description, sources: n.sources },
         }));
         const flowEdges: MapEdge[] = (project.edges as SystemEdge[]).map((e) => ({

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useMapStore, MapNodeData, MapEdgeData } from './useMapStore';
+import { useMapStore, MapNodeData, MapEdgeData, MapNode, MapEdge } from './useMapStore';
 import { Node, Edge } from '@xyflow/react';
 import { SystemNode, SystemEdge } from '@/types';
 
@@ -37,7 +37,7 @@ export function useAutoSave() {
   const isFirstRender = useRef(true);
   const pendingRef = useRef<{ nodes: typeof nodes; edges: typeof edges; projectId: string } | null>(null);
 
-  const save = (projectId: string, nodes: typeof pendingRef.current['nodes'], edges: typeof pendingRef.current['edges']) => {
+  const save = (projectId: string, nodes: MapNode[], edges: MapEdge[]) => {
     fetch(`/api/projects/${projectId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

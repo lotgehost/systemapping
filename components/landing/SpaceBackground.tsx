@@ -12,7 +12,6 @@ export default function SpaceBackground() {
   const ry = seededRand(193);
   const rr = seededRand(311);
   const ro = seededRand(857);
-  // Stars only in the dark space area above Earth horizon (~y=660)
   const stars = Array.from({ length: 200 }, () => ({
     x: rx() * 1440,
     y: ry() * 640,
@@ -29,7 +28,7 @@ export default function SpaceBackground() {
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Atmosphere glow — radial from Earth center (720, 1760) */}
+          {/* Atmosphere glow */}
           <radialGradient id="atmoGlow" cx="720" cy="1760" r="1130" gradientUnits="userSpaceOnUse">
             <stop offset="90%"   stopColor="transparent" />
             <stop offset="93%"   stopColor="#1a5a9a" stopOpacity="0.32" />
@@ -39,23 +38,45 @@ export default function SpaceBackground() {
             <stop offset="100%"  stopColor="transparent" />
           </radialGradient>
 
-          {/* Earth surface — lit from upper-left */}
+          {/* Earth body */}
           <radialGradient id="earthBody" cx="620" cy="1520" r="820" gradientUnits="userSpaceOnUse">
             <stop offset="0%"   stopColor="#4e8ec8" />
             <stop offset="40%"  stopColor="#2462a4" />
             <stop offset="100%" stopColor="#0c1e3e" />
           </radialGradient>
 
-          {/* Clip: Earth disk */}
+          {/* Cloud gradients — center opaque, edge fully transparent */}
+          <radialGradient id="cA" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#ddeeff" stopOpacity="0.60" />
+            <stop offset="55%"  stopColor="#ddeeff" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#ddeeff" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="cB" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#eef6ff" stopOpacity="0.55" />
+            <stop offset="50%"  stopColor="#eef6ff" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#eef6ff" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="cC" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#c8dff5" stopOpacity="0.40" />
+            <stop offset="60%"  stopColor="#c8dff5" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#c8dff5" stopOpacity="0" />
+          </radialGradient>
+          {/* Haze band gradient */}
+          <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stopColor="#a8d4f0" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#a8d4f0" stopOpacity="0" />
+          </linearGradient>
+
+          {/* Earth clip */}
           <clipPath id="earthClip">
             <circle cx="720" cy="1760" r="1100" />
           </clipPath>
         </defs>
 
-        {/* ── Deep space ── */}
+        {/* Deep space */}
         <rect width="1440" height="900" fill="#000308" />
 
-        {/* ── Stars ── */}
+        {/* Stars */}
         {stars.map((s, i) => (
           <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="white" opacity={s.opacity} />
         ))}
@@ -66,70 +87,46 @@ export default function SpaceBackground() {
         <path d="M182,374 L183,370 L184,374 L188,375 L184,376 L183,380 L182,376 L178,375Z" fill="white" opacity="0.52" />
         <path d="M1040,310 L1040.8,307 L1041.6,310 L1044.6,310.8 L1041.6,311.6 L1040.8,314.6 L1040,311.6 L1037,310.8Z" fill="white" opacity="0.45" />
 
-        {/* ── Earth body ── */}
+        {/* Earth body */}
         <circle cx="720" cy="1760" r="1100" fill="url(#earthBody)" />
 
-        {/* ── Earth surface details (clouds, ocean bands) ── */}
+        {/* Earth surface — gradient clouds that blend naturally */}
         <g clipPath="url(#earthClip)">
-          {/* Upper haze where atmosphere meets surface */}
-          <rect x="0" y="650" width="1440" height="50" fill="rgba(120,185,235,0.16)" />
-          <rect x="0" y="650" width="1440" height="25" fill="rgba(165,215,248,0.12)" />
+          {/* Atmosphere-surface haze band at the very top */}
+          <rect x="0" y="650" width="1440" height="70" fill="url(#haze)" />
 
-          {/* Cloud bands */}
-          <ellipse cx="150"  cy="722" rx="235" ry="56" fill="rgba(215,233,252,0.50)" />
-          <ellipse cx="490"  cy="692" rx="295" ry="53" fill="rgba(218,236,252,0.52)" />
-          <ellipse cx="820"  cy="704" rx="262" ry="55" fill="rgba(215,233,252,0.46)" />
-          <ellipse cx="1130" cy="716" rx="225" ry="51" fill="rgba(218,236,252,0.44)" />
-          <ellipse cx="1370" cy="702" rx="185" ry="49" fill="rgba(215,233,252,0.42)" />
+          {/* Large diffuse cloud masses — cC (blue-grey, deep/background) */}
+          <ellipse cx="200"  cy="730" rx="320" ry="90"  fill="url(#cC)" />
+          <ellipse cx="650"  cy="710" rx="380" ry="100" fill="url(#cC)" />
+          <ellipse cx="1080" cy="725" rx="340" ry="88"  fill="url(#cC)" />
+          <ellipse cx="1380" cy="715" rx="280" ry="80"  fill="url(#cC)" />
 
-          {/* Brighter cloud highlights */}
-          <ellipse cx="195"  cy="718" rx="115" ry="29" fill="rgba(240,250,255,0.44)" />
-          <ellipse cx="558"  cy="688" rx="132" ry="27" fill="rgba(240,250,255,0.42)" />
-          <ellipse cx="890"  cy="698" rx="118" ry="28" fill="rgba(240,250,255,0.40)" />
-          <ellipse cx="1165" cy="712" rx="104" ry="26" fill="rgba(240,250,255,0.38)" />
+          {/* Mid cloud layer — cA (main cloud white-blue) */}
+          <ellipse cx="120"  cy="718" rx="240" ry="65"  fill="url(#cA)" />
+          <ellipse cx="440"  cy="696" rx="300" ry="72"  fill="url(#cA)" />
+          <ellipse cx="750"  cy="708" rx="270" ry="68"  fill="url(#cA)" />
+          <ellipse cx="1040" cy="700" rx="255" ry="66"  fill="url(#cA)" />
+          <ellipse cx="1310" cy="712" rx="220" ry="62"  fill="url(#cA)" />
 
-          {/* Second cloud layer */}
-          <ellipse cx="340"  cy="742" rx="205" ry="44" fill="rgba(215,233,252,0.36)" />
-          <ellipse cx="698"  cy="750" rx="245" ry="43" fill="rgba(215,233,252,0.33)" />
-          <ellipse cx="1055" cy="744" rx="215" ry="44" fill="rgba(215,233,252,0.37)" />
+          {/* Second mid layer, offset horizontally for overlap */}
+          <ellipse cx="300"  cy="738" rx="255" ry="60"  fill="url(#cA)" />
+          <ellipse cx="600"  cy="745" rx="290" ry="58"  fill="url(#cA)" />
+          <ellipse cx="920"  cy="738" rx="260" ry="60"  fill="url(#cA)" />
+          <ellipse cx="1200" cy="742" rx="235" ry="58"  fill="url(#cA)" />
 
-          {/* Ocean depth variation */}
-          <ellipse cx="480"  cy="700" rx="380" ry="90" fill="rgba(80,150,205,0.12)" />
-          <ellipse cx="960"  cy="710" rx="310" ry="80" fill="rgba(60,130,185,0.10)" />
+          {/* Bright cloud highlights — cB (brightest whites) */}
+          <ellipse cx="155"  cy="712" rx="130" ry="36"  fill="url(#cB)" />
+          <ellipse cx="480"  cy="690" rx="150" ry="34"  fill="url(#cB)" />
+          <ellipse cx="790"  cy="702" rx="138" ry="35"  fill="url(#cB)" />
+          <ellipse cx="1065" cy="694" rx="125" ry="33"  fill="url(#cB)" />
+          <ellipse cx="1340" cy="706" rx="115" ry="32"  fill="url(#cB)" />
+          <ellipse cx="340"  cy="732" rx="120" ry="30"  fill="url(#cB)" />
+          <ellipse cx="650"  cy="740" rx="135" ry="30"  fill="url(#cB)" />
+          <ellipse cx="960"  cy="734" rx="120" ry="31"  fill="url(#cB)" />
         </g>
 
-        {/* ── Atmosphere glow at horizon ── */}
+        {/* Atmosphere glow at horizon */}
         <rect x="0" y="0" width="1440" height="900" fill="url(#atmoGlow)" />
-
-        {/* ── Astronaut floating in dark space ── */}
-        <g transform="rotate(-14, 440, 348)" opacity="0.88">
-          {/* Helmet */}
-          <circle cx="440" cy="328" r="14" fill="#eceae4" />
-          {/* Visor — golden */}
-          <ellipse cx="441" cy="328" rx="9" ry="7.5" fill="#b8820a" />
-          <ellipse cx="440" cy="326" rx="7" ry="5.5" fill="#d4a020" opacity="0.52" />
-          {/* Visor glare */}
-          <ellipse cx="436" cy="323" rx="3" ry="2.5" fill="rgba(255,240,180,0.35)" />
-          {/* Torso */}
-          <rect x="427" y="340" width="26" height="24" rx="5" fill="#eceae4" />
-          {/* PLSS backpack */}
-          <rect x="429" y="342" width="18" height="18" rx="2" fill="#e0ddd6" />
-          {/* Chest details */}
-          <rect x="432" y="344" width="12" height="4" rx="1" fill="#cccccc" opacity="0.6" />
-          <rect x="433" y="350" width="10" height="3" rx="1" fill="#cccccc" opacity="0.5" />
-          {/* Left arm */}
-          <rect x="410" y="343" width="18" height="7" rx="3.5" fill="#eceae4" transform="rotate(-15 419 346)" />
-          {/* Right arm + handheld tool */}
-          <rect x="452" y="342" width="18" height="7" rx="3.5" fill="#eceae4" transform="rotate(20 461 345)" />
-          <rect x="468" y="338" width="8" height="4" rx="2" fill="#c8c8c4" />
-          <rect x="474" y="334" width="4" height="10" rx="1.5" fill="#b0b0ac" />
-          {/* Left leg */}
-          <rect x="428" y="362" width="9" height="15" rx="4" fill="#eceae4" transform="rotate(8 432 369)" />
-          {/* Right leg */}
-          <rect x="439" y="362" width="9" height="15" rx="4" fill="#eceae4" transform="rotate(-6 443 369)" />
-          {/* Suit seam lines */}
-          <line x1="440" y1="341" x2="440" y2="364" stroke="#d8d5ce" strokeWidth="0.8" opacity="0.5" />
-        </g>
       </svg>
     </div>
   );

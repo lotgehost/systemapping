@@ -1,6 +1,7 @@
 'use client';
 
 import ProblemInput from '@/components/landing/ProblemInput';
+import SpaceBackground from '@/components/landing/SpaceBackground';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
@@ -17,28 +18,10 @@ export default function HomePage() {
     <main
       className="min-h-screen flex flex-col items-center px-4 relative overflow-hidden pt-[36vh]"
       style={{
-        background: `
-          radial-gradient(ellipse 80% 60% at 75% 10%, rgba(124,58,237,0.45) 0%, transparent 60%),
-          radial-gradient(ellipse 60% 70% at 15% 80%, rgba(37,99,235,0.35) 0%, transparent 60%),
-          radial-gradient(ellipse 50% 40% at 50% 45%, rgba(219,39,119,0.18) 0%, transparent 60%),
-          #080614
-        `,
+        background: '#06050e',
       }}
     >
-      {/* Stars overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
-            radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px),
-            radial-gradient(circle, rgba(255,255,255,0.3) 1.5px, transparent 1.5px)
-          `,
-          backgroundSize: '160px 160px, 100px 100px, 260px 260px',
-          backgroundPosition: '0 0, 60px 80px, 20px 130px',
-          opacity: 0.4,
-        }}
-      />
+      <SpaceBackground />
 
       {/* Sign out */}
       <button

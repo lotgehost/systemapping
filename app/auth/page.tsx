@@ -48,11 +48,11 @@ export default function AuthPage() {
         background: 'radial-gradient(ellipse 120% 80% at 60% 20%, #fef3c7 0%, #fde68a 15%, #fed7aa 30%, #fecaca 45%, #e9d5ff 65%, #c7d2fe 80%, #bfdbfe 100%)',
       }}
     >
-      <div className="w-full max-w-[400px] mx-auto space-y-5">
+      <div className="w-fit mx-auto space-y-5 px-4">
         {/* Title — always visible */}
         <div className="space-y-1.5">
           <h1
-            className="text-[17px] leading-tight tracking-tight whitespace-nowrap"
+            className="text-[22px] leading-tight tracking-tight whitespace-nowrap"
             style={{
               fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',

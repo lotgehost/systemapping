@@ -29,11 +29,11 @@ export default function HomePage() {
         Sign out
       </button>
 
-      <div className="w-full max-w-[500px] space-y-5 animate-fade-in" style={{ marginTop: '-80px' }}>
+      <div className="w-fit mx-auto space-y-5 animate-fade-in px-4" style={{ marginTop: '-80px' }}>
         {/* Heading */}
         <div className="space-y-1.5">
           <h1
-            className="text-[17px] leading-tight tracking-tight whitespace-nowrap"
+            className="text-[22px] leading-tight tracking-tight whitespace-nowrap"
             style={{
               fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',

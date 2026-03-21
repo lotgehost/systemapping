@@ -29,7 +29,7 @@ export default function HomePage() {
         Sign out
       </button>
 
-      <div className="w-full max-w-[480px] mx-auto space-y-5 animate-fade-in" style={{ marginTop: '-80px' }}>
+      <div className="w-full max-w-[480px] mx-auto space-y-5 animate-fade-in" style={{ marginTop: '-140px' }}>
         {/* Heading */}
         <div className="space-y-1.5">
           <h1

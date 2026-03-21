@@ -22,7 +22,7 @@ export default function HomePage() {
               fontWeight: 600,
             }}
           >
-            Map any complex system.
+            The Hitchhiker's Guide to the System
           </h1>
           <p
             className="text-[13px]"
@@ -32,7 +32,7 @@ export default function HomePage() {
               letterSpacing: '0.01em',
             }}
           >
-            Describe a problem — AI builds a causal loop diagram.
+            map the complex system
           </p>
         </div>
 

@@ -105,10 +105,11 @@ export default function ChatPanel() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const send = async () => {
-    if (!input.trim() || loading || !projectId) return;
+  const send = async (overrideText?: string) => {
+    const text = overrideText ?? input;
+    if (!text.trim() || loading || !projectId) return;
 
-    const userMsg: Message = { role: 'user', content: input.trim() };
+    const userMsg: Message = { role: 'user', content: text.trim() };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setLoading(true);
@@ -147,11 +148,6 @@ export default function ChatPanel() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Header */}
-      <div className="px-5 py-4 border-b border-[var(--glass-border)] flex-shrink-0">
-        <p className="text-[10px] font-semibold tracking-widest uppercase text-[var(--text-muted)]">AI Assistant</p>
-      </div>
-
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.length === 0 && (
@@ -163,7 +159,7 @@ export default function ChatPanel() {
             ].map((q) => (
               <button
                 key={q}
-                onClick={() => setInput(q)}
+                onClick={() => send(q)}
                 className="w-full text-left text-xs px-3 py-2.5 rounded-lg transition-all duration-150 cursor-pointer border"
                 style={{
                   color: 'var(--text-secondary)',
@@ -183,13 +179,13 @@ export default function ChatPanel() {
               className="max-w-[85%] rounded-xl px-3 py-2.5 text-xs leading-relaxed"
               style={
                 m.role === 'user'
-                  ? { background: '#2563eb', color: '#ffffff', borderRadius: '12px 12px 2px 12px' }
+                  ? { background: '#111827', color: '#ffffff', borderRadius: '12px 12px 2px 12px' }
                   : { background: 'var(--glass-bg-strong)', color: 'var(--text-primary)', border: '1px solid var(--glass-border)', borderRadius: '12px 12px 12px 2px' }
               }
             >
               {m.content}
             </div>
-            {m.opCount && m.opCount > 0 && (
+            {!!m.opCount && m.opCount > 0 && (
               <div className="flex items-center gap-1 mt-1 px-1">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#059669" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -232,7 +228,7 @@ export default function ChatPanel() {
             onClick={send}
             disabled={loading || !input.trim()}
             className="px-3 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ background: '#2563eb', color: '#ffffff' }}
+            style={{ background: '#111827', color: '#ffffff' }}
           >
             Send
           </button>

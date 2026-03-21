@@ -103,7 +103,7 @@ function LoopLabelOverlay() {
               transition: 'opacity 0.2s',
             }}
           >
-            <svg width="44" height="44" viewBox="0 0 44 44">
+            <svg width="34" height="34" viewBox="0 0 44 44">
               <defs>
                 <marker
                   id={markerId}

@@ -16,6 +16,11 @@ export default function MyProjectsPanel() {
   const [projects, setProjects] = useState<ProjectSummary[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const handleDelete = async (id: string) => {
+    await fetch(`/api/projects/${id}`, { method: 'DELETE' }).catch(() => {});
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+  };
+
   useEffect(() => {
     if (!open) return;
     setLoading(true);
@@ -60,12 +65,6 @@ export default function MyProjectsPanel() {
             backdropFilter: 'blur(20px)',
           }}
         >
-          <div className="px-4 py-3 border-b border-[rgba(0,0,0,0.06)]">
-            <p className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: 'rgba(30,30,40,0.4)' }}>
-              Projects
-            </p>
-          </div>
-
           <div className="max-h-72 overflow-y-auto">
             {loading ? (
               <div className="flex justify-center py-8">
@@ -78,18 +77,31 @@ export default function MyProjectsPanel() {
             ) : (
               <div className="py-1">
                 {projects.map((p) => (
-                  <button
+                  <div
                     key={p.id}
-                    onClick={() => { router.push(`/map/${p.id}`); setOpen(false); }}
-                    className="w-full text-left px-4 py-2.5 transition-colors duration-100 cursor-pointer hover:bg-black/[0.03]"
+                    className="group relative flex items-center hover:bg-black/[0.03] transition-colors duration-100"
                   >
-                    <p className="text-[12px] leading-snug line-clamp-1" style={{ color: 'rgba(15,15,20,0.8)' }}>
-                      {p.prompt}
-                    </p>
-                    <p className="text-[10px] mt-0.5" style={{ color: 'rgba(30,30,40,0.35)' }}>
-                      {new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </p>
-                  </button>
+                    <button
+                      onClick={() => { router.push(`/map/${p.id}`); setOpen(false); }}
+                      className="flex-1 text-left px-4 py-2.5 cursor-pointer"
+                    >
+                      <p className="text-[12px] leading-snug line-clamp-1" style={{ color: 'rgba(15,15,20,0.8)' }}>
+                        {p.prompt}
+                      </p>
+                      <p className="text-[10px] mt-0.5" style={{ color: 'rgba(30,30,40,0.35)' }}>
+                        {new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </p>
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleDelete(p.id); }}
+                      className="opacity-0 group-hover:opacity-100 flex-shrink-0 mr-3 p-1 rounded transition-opacity duration-100 cursor-pointer hover:bg-black/[0.06]"
+                      style={{ color: 'rgba(30,30,40,0.35)' }}
+                    >
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
                 ))}
               </div>
             )}

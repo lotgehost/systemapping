@@ -57,7 +57,6 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
         style={{
           width: 'var(--panel-left)',
           background: 'linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%)',
-          boxShadow: '1px 0 0 var(--glass-border)',
         }}
       >
         <LeftPanel readOnly={readOnly} onShare={handleShare} shareUrl={shareUrl} />
@@ -93,17 +92,17 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
                   background: 'transparent',
                 }}
               >
-                {tab === 'chat' ? 'Chat' : 'Details'}
+                {tab === 'chat' ? 'AI Assistant' : 'Details'}
                 {tab === 'detail' && hasSelection && (
                   <span
                     className="absolute top-2.5 right-4 w-1.5 h-1.5 rounded-full"
-                    style={{ background: '#2563eb' }}
+                    style={{ background: '#111827' }}
                   />
                 )}
                 {rightTab === tab && (
                   <span
                     className="absolute bottom-0 left-0 right-0 h-0.5"
-                    style={{ background: '#2563eb' }}
+                    style={{ background: '#111827' }}
                   />
                 )}
               </button>
@@ -111,11 +110,12 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
           </div>
 
           {/* Tab content */}
-          <div className="flex-1 overflow-hidden">
-            {rightTab === 'chat' ? (
+          <div className="flex-1 overflow-hidden relative">
+            <div className={`absolute inset-0 ${rightTab === 'chat' ? '' : 'hidden'}`}>
               <ChatPanel />
-            ) : (
-              hasSelection ? (
+            </div>
+            <div className={`absolute inset-0 ${rightTab === 'detail' ? '' : 'hidden'}`}>
+              {hasSelection ? (
                 <DetailPanel />
               ) : (
                 <div className="flex items-center justify-center h-full">
@@ -123,8 +123,8 @@ export default function MapWorkspace({ readOnly = false }: MapWorkspaceProps) {
                     Click a node or edge<br />to see details
                   </p>
                 </div>
-              )
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}

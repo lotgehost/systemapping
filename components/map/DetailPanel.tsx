@@ -11,7 +11,7 @@ const NODE_TYPE_LABELS: Record<string, string> = {
 };
 
 const NODE_TYPE_DOTS: Record<string, string> = {
-  variable:  '#2563eb',
+  variable:  '#111827',
   exogenous: '#7c3aed',
   lever:     '#059669',
 };

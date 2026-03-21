@@ -8,7 +8,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { NodeType } from '@/types';
 
 const NODE_TYPES: { value: NodeType; label: string; dot: string }[] = [
-  { value: 'variable',  label: 'Variable', dot: '#2563eb' },
+  { value: 'variable',  label: 'Variable', dot: '#111827' },
   { value: 'exogenous', label: 'External', dot: '#7c3aed' },
   { value: 'lever',     label: 'Lever',    dot: '#059669' },
 ];
@@ -172,14 +172,6 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
         )}
       </div>
 
-      {/* Copyright */}
-      {!readOnly && (
-        <div className="px-5 py-3 border-t border-[var(--glass-border)] flex-shrink-0">
-          <p className="text-[11px] text-center w-full" style={{ color: 'rgba(30,30,40,0.3)' }}>
-            © {new Date().getFullYear()} hjngk
-          </p>
-        </div>
-      )}
     </div>
   );
 }

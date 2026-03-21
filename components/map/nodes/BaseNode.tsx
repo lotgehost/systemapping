@@ -4,7 +4,7 @@ import { Handle, Position, NodeProps } from '@xyflow/react';
 import { useMapStore, MapNode } from '@/hooks/useMapStore';
 
 const NODE_STYLES: Record<string, { color: string; selectedColor: string; loopColor: string; label: string }> = {
-  variable:  { color: '#111827', selectedColor: '#2563eb', loopColor: '#1d4ed8', label: '' },
+  variable:  { color: '#111827', selectedColor: '#111827', loopColor: '#111827', label: '' },
   exogenous: { color: '#6d28d9', selectedColor: '#7c3aed', loopColor: '#7c3aed', label: 'EXT' },
   lever:     { color: '#065f46', selectedColor: '#059669', loopColor: '#059669', label: 'LEV' },
 };

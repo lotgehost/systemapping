@@ -154,6 +154,13 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
+
+      <p
+        className="absolute bottom-4 left-0 right-0 text-center text-[11px]"
+        style={{ color: 'rgba(30,30,40,0.3)' }}
+      >
+        © {new Date().getFullYear()} hjngk
+      </p>
     </main>
   );
 }

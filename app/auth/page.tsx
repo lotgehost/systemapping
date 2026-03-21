@@ -48,7 +48,7 @@ export default function AuthPage() {
         background: 'radial-gradient(ellipse 120% 80% at 60% 20%, #fef3c7 0%, #fde68a 15%, #fed7aa 30%, #fecaca 45%, #e9d5ff 65%, #c7d2fe 80%, #bfdbfe 100%)',
       }}
     >
-      <div className="w-full max-w-[480px] mx-auto space-y-5" style={{}}>
+      <div className="w-max mx-auto space-y-5">
         {/* Title — always visible */}
         <div className="space-y-1.5 px-4">
           <h1

@@ -29,7 +29,7 @@ export default function HomePage() {
         Sign out
       </button>
 
-      <div className="w-full max-w-[480px] mx-auto space-y-5 animate-fade-in" style={{}}>
+      <div className="w-max mx-auto space-y-5 animate-fade-in">
         {/* Heading */}
         <div className="space-y-1.5 px-4">
           <h1

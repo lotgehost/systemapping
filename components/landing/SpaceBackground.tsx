@@ -49,15 +49,15 @@ export default function SpaceBackground() {
             <stop offset="100%" stopColor="#060d1f" stopOpacity="0.55" />
           </radialGradient>
           <clipPath id="earthClip">
-            <circle cx="720" cy="1020" r="440" />
+            <circle cx="720" cy="980" r="440" />
           </clipPath>
         </defs>
 
         {/* Atmosphere halo */}
-        <circle cx="720" cy="1020" r="458" fill="url(#earthGlow)" />
+        <circle cx="720" cy="980" r="460" fill="url(#earthGlow)" />
 
         {/* Earth base ocean */}
-        <circle cx="720" cy="1020" r="440" fill="#1a5fb4" />
+        <circle cx="720" cy="980" r="440" fill="#1a5fb4" />
 
         <g clipPath="url(#earthClip)">
           {/* Deep ocean variation */}
@@ -89,18 +89,21 @@ export default function SpaceBackground() {
           <path d="M550,830 C578,824 610,822 636,828 C656,833 660,842 648,846 C633,850 605,848 580,844 C558,840 542,834 550,830Z" fill="rgba(255,255,255,0.4)" />
 
           {/* Sphere shading overlay */}
-          <circle cx="720" cy="1020" r="440" fill="url(#earthShade)" />
+          <circle cx="720" cy="980" r="440" fill="url(#earthShade)" />
         </g>
 
-        {/* Moon terrain - back layer */}
-        <path d="M0,760 C60,738 130,750 200,740 C280,728 360,745 440,735 C520,724 600,742 680,732 C760,722 840,738 920,728 C1000,718 1080,736 1160,726 C1240,716 1320,734 1380,724 L1440,720 L1440,900 L0,900Z" fill="#1c1c1c" />
+        {/* Moon terrain - back layer (lightest, blue-grey) */}
+        <path d="M0,760 C60,738 130,750 200,740 C280,728 360,745 440,735 C520,724 600,742 680,732 C760,722 840,738 920,728 C1000,718 1080,736 1160,726 C1240,716 1320,734 1380,724 L1440,720 L1440,900 L0,900Z" fill="#2c3340" />
         {/* Moon terrain - mid layer */}
-        <path d="M0,800 C80,782 160,795 240,785 C320,775 400,792 480,782 C560,772 640,788 720,780 C800,772 880,786 960,778 C1040,770 1120,784 1200,776 C1280,768 1360,782 1440,774 L1440,900 L0,900Z" fill="#141414" />
-        {/* Moon terrain - front layer (darkest) */}
-        <path d="M0,840 C100,825 200,838 300,828 C400,818 500,835 600,825 C700,815 800,830 900,822 C1000,814 1100,828 1200,820 C1300,812 1380,826 1440,820 L1440,900 L0,900Z" fill="#0a0a0a" />
-        {/* Foreground crater/detail */}
-        <ellipse cx="280" cy="870" rx="80" ry="18" fill="#111" opacity="0.8" />
-        <ellipse cx="1100" cy="858" rx="60" ry="14" fill="#111" opacity="0.7" />
+        <path d="M0,800 C80,782 160,795 240,785 C320,775 400,792 480,782 C560,772 640,788 720,780 C800,772 880,786 960,778 C1040,770 1120,784 1200,776 C1280,768 1360,782 1440,774 L1440,900 L0,900Z" fill="#1e2530" />
+        {/* Moon terrain - front layer */}
+        <path d="M0,840 C100,825 200,838 300,828 C400,818 500,835 600,825 C700,815 800,830 900,822 C1000,814 1100,828 1200,820 C1300,812 1380,826 1440,820 L1440,900 L0,900Z" fill="#141920" />
+        {/* Foreground (darkest) */}
+        <path d="M0,870 C150,862 300,868 450,864 C600,860 750,866 900,862 C1050,858 1200,864 1440,860 L1440,900 L0,900Z" fill="#0b0e13" />
+        {/* Crater shadows */}
+        <ellipse cx="280" cy="858" rx="90" ry="12" fill="#111827" opacity="0.6" />
+        <ellipse cx="1100" cy="848" rx="65" ry="10" fill="#111827" opacity="0.5" />
+        <ellipse cx="680" cy="865" rx="50" ry="8" fill="#111827" opacity="0.4" />
       </svg>
     </div>
   );

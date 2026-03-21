@@ -52,7 +52,7 @@ export default function AuthPage() {
         {/* Title — always visible */}
         <div className="space-y-1.5">
           <h1
-            className="text-[26px] leading-tight tracking-tight"
+            className="text-[20px] leading-tight tracking-tight"
             style={{
               fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',
@@ -74,7 +74,7 @@ export default function AuthPage() {
         </div>
 
         {/* Auth form → fades out, ProblemInput fades in */}
-        <div className="relative max-w-[300px]">
+        <div className="relative max-w-[380px]">
           {/* Auth form */}
           <div
             className="transition-all duration-500"

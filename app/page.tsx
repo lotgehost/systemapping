@@ -24,7 +24,7 @@ export default function HomePage() {
       <button
         onClick={handleSignOut}
         className="absolute top-4 right-4 text-[12px] px-3 py-1.5 transition-all duration-150 cursor-pointer"
-        style={{ color: 'rgba(30,30,40,0.45)' }}
+        style={{ color: 'rgba(30,30,40,0.65)' }}
       >
         Sign out
       </button>

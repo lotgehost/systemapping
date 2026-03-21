@@ -74,7 +74,7 @@ export default function AuthPage() {
         </div>
 
         {/* Auth form → fades out, ProblemInput fades in */}
-        <div className="relative">
+        <div className="relative px-4">
           {/* Auth form */}
           <div
             className="transition-all duration-500"

@@ -147,8 +147,8 @@ export default function ProblemInput() {
           placeholder=""
           rows={1}
           disabled={loading}
-          className="w-full bg-transparent px-4 pt-5 pb-2 text-sm text-gray-800 outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
-          style={{ minHeight: '64px', maxHeight: '160px' }}
+          className="w-full bg-transparent px-4 pt-3 pb-2 text-sm text-gray-800 outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
+          style={{ minHeight: '36px', maxHeight: '160px' }}
         />
 
         {/* Bottom actions */}

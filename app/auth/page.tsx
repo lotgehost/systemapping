@@ -43,16 +43,16 @@ export default function AuthPage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col justify-center px-4 relative overflow-hidden"
+      className="min-h-screen flex flex-col justify-center px-4 relative overflow-hidden pt-24"
       style={{
         background: 'radial-gradient(ellipse 120% 80% at 60% 20%, #fef3c7 0%, #fde68a 15%, #fed7aa 30%, #fecaca 45%, #e9d5ff 65%, #c7d2fe 80%, #bfdbfe 100%)',
       }}
     >
-      <div className="w-full max-w-[500px] mx-auto space-y-5">
+      <div className="w-full max-w-[400px] mx-auto space-y-5">
         {/* Title — always visible */}
         <div className="space-y-1.5">
           <h1
-            className="text-[20px] leading-tight tracking-tight"
+            className="text-[24px] leading-tight tracking-tight"
             style={{
               fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',

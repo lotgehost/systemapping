@@ -225,7 +225,7 @@ export default function ChatPanel() {
             style={{ background: 'var(--glass-bg-strong)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
           />
           <button
-            onClick={send}
+            onClick={() => send()}
             disabled={loading || !input.trim()}
             className="px-3 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ background: '#111827', color: '#ffffff' }}

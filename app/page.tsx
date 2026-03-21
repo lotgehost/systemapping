@@ -33,7 +33,7 @@ export default function HomePage() {
         {/* Heading */}
         <div className="space-y-1.5">
           <h1
-            className="text-[26px] leading-tight tracking-tight"
+            className="text-[20px] leading-tight tracking-tight whitespace-nowrap"
             style={{
               fontFamily: 'var(--font-heading)',
               color: 'rgba(15,15,20,0.85)',

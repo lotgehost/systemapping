@@ -8,12 +8,15 @@ function seededRand(seed: number) {
 }
 
 export default function SpaceBackground() {
-  const rand = seededRand(42);
-  const stars = Array.from({ length: 110 }, () => ({
-    x: rand() * 1440,
-    y: rand() * 620,
-    r: 0.4 + rand() * 1.4,
-    opacity: 0.15 + rand() * 0.85,
+  const rx = seededRand(7);
+  const ry = seededRand(193);
+  const rr = seededRand(311);
+  const ro = seededRand(857);
+  const stars = Array.from({ length: 120 }, () => ({
+    x: rx() * 1440,
+    y: ry() * 660,
+    r: 0.3 + rr() * 1.5,
+    opacity: 0.1 + ro() * 0.9,
   }));
 
   return (

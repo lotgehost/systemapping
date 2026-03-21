@@ -45,17 +45,37 @@ export default function AuthPage() {
     <main
       className="min-h-screen flex flex-col items-center px-4 relative overflow-hidden pt-[36vh]"
       style={{
-        background: 'radial-gradient(ellipse 120% 80% at 60% 20%, #fef3c7 0%, #fde68a 15%, #fed7aa 30%, #fecaca 45%, #e9d5ff 65%, #c7d2fe 80%, #bfdbfe 100%)',
+        background: `
+          radial-gradient(ellipse 80% 60% at 75% 10%, rgba(124,58,237,0.45) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 70% at 15% 80%, rgba(37,99,235,0.35) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 40% at 50% 45%, rgba(219,39,119,0.18) 0%, transparent 60%),
+          #080614
+        `,
       }}
     >
-      <div className="w-max mx-auto space-y-5">
-        {/* Title — always visible */}
+      {/* Stars overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255,255,255,0.3) 1.5px, transparent 1.5px)
+          `,
+          backgroundSize: '160px 160px, 100px 100px, 260px 260px',
+          backgroundPosition: '0 0, 60px 80px, 20px 130px',
+          opacity: 0.4,
+        }}
+      />
+
+      <div className="w-max mx-auto space-y-5 relative z-10">
+        {/* Title */}
         <div className="space-y-1.5">
           <h1
             className="text-[24px] leading-tight tracking-tight whitespace-nowrap"
             style={{
               fontFamily: 'var(--font-heading)',
-              color: 'rgba(15,15,20,0.85)',
+              color: 'rgba(255,255,255,0.92)',
               fontWeight: 600,
             }}
           >
@@ -65,7 +85,7 @@ export default function AuthPage() {
             className="text-[13px]"
             style={{
               fontFamily: 'var(--font-jakarta)',
-              color: 'rgba(30,30,40,0.45)',
+              color: 'rgba(180,190,255,0.5)',
               letterSpacing: '0.01em',
             }}
           >
@@ -87,11 +107,11 @@ export default function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all placeholder:text-white/30"
                 style={{
-                  background: 'rgba(255,255,255,0.7)',
-                  border: '1px solid rgba(0,0,0,0.1)',
-                  color: 'var(--text-primary)',
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  color: 'rgba(255,255,255,0.85)',
                 }}
               />
               <input
@@ -101,18 +121,18 @@ export default function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-[13px] outline-none transition-all placeholder:text-white/30"
                 style={{
-                  background: 'rgba(255,255,255,0.7)',
-                  border: '1px solid rgba(0,0,0,0.1)',
-                  color: 'var(--text-primary)',
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  color: 'rgba(255,255,255,0.85)',
                 }}
               />
 
               {message && (
                 <p
                   className="text-[12px] px-1"
-                  style={{ color: message.type === 'error' ? '#b91c1c' : '#065f46' }}
+                  style={{ color: message.type === 'error' ? '#f87171' : '#6ee7b7' }}
                 >
                   {message.text}
                 </p>
@@ -123,8 +143,8 @@ export default function AuthPage() {
                 disabled={loading}
                 className="w-full py-2.5 rounded-xl text-[13px] font-semibold transition-all"
                 style={{
-                  background: 'rgba(15,15,20,0.85)',
-                  color: 'white',
+                  background: 'rgba(255,255,255,0.9)',
+                  color: '#080614',
                   opacity: loading ? 0.6 : 1,
                   cursor: loading ? 'not-allowed' : 'pointer',
                 }}
@@ -133,12 +153,12 @@ export default function AuthPage() {
               </button>
             </form>
 
-            <p className="mt-5 text-center text-[12px]" style={{ color: 'rgba(30,30,40,0.45)' }}>
+            <p className="mt-5 text-center text-[12px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
               {mode === 'signin' ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button
                 onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setMessage(null); }}
                 className="font-semibold underline cursor-pointer"
-                style={{ color: 'rgba(15,15,20,0.7)' }}
+                style={{ color: 'rgba(255,255,255,0.6)' }}
               >
                 {mode === 'signin' ? 'Sign up' : 'Sign in'}
               </button>
@@ -150,14 +170,14 @@ export default function AuthPage() {
             className="transition-all duration-500"
             style={{ opacity: authed ? 1 : 0, pointerEvents: authed ? 'auto' : 'none' }}
           >
-            <ProblemInput />
+            <ProblemInput dark />
           </div>
         </div>
       </div>
 
       <p
         className="absolute bottom-4 left-0 right-0 text-center text-[11px]"
-        style={{ color: 'rgba(30,30,40,0.3)' }}
+        style={{ color: 'rgba(255,255,255,0.2)' }}
       >
         © {new Date().getFullYear()} hjngk
       </p>

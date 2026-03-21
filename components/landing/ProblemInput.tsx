@@ -12,7 +12,7 @@ interface UploadedFile {
   upload_id?: string;
 }
 
-export default function ProblemInput() {
+export default function ProblemInput({ dark = false }: { dark?: boolean }) {
   const router = useRouter();
   const [prompt, setPrompt] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
@@ -93,7 +93,12 @@ export default function ProblemInput() {
       {/* Input box */}
       <div
         className="rounded-3xl transition-all duration-300"
-        style={{
+        style={dark ? {
+          background: isDragging ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.06)',
+          border: isDragging ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+          backdropFilter: 'blur(20px)',
+        } : {
           background: isDragging ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.6)',
           border: isDragging ? '1px solid rgba(0,0,0,0.2)' : '1px solid rgba(0,0,0,0.1)',
           boxShadow: '0 4px 24px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)',
@@ -147,7 +152,7 @@ export default function ProblemInput() {
           placeholder=""
           rows={1}
           disabled={loading}
-          className="w-full bg-transparent px-4 pt-4 pb-2 text-sm text-gray-800 outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50"
+          className={`w-full bg-transparent px-4 pt-4 pb-2 text-sm outline-none focus:outline-none focus:ring-0 resize-none disabled:opacity-50 ${dark ? 'text-white/85 placeholder:text-white/25' : 'text-gray-800'}`}
           style={{ minHeight: '72px', maxHeight: '160px' }}
         />
 

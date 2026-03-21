@@ -29,7 +29,7 @@ export default function HomePage() {
         Sign out
       </button>
 
-      <div className="w-full max-w-[500px] space-y-5 animate-fade-in">
+      <div className="w-full max-w-[500px] space-y-5 animate-fade-in" style={{ marginTop: '-80px' }}>
         {/* Heading */}
         <div className="space-y-1.5">
           <h1
@@ -57,6 +57,13 @@ export default function HomePage() {
         {/* Input */}
         <ProblemInput />
       </div>
+
+      <p
+        className="absolute bottom-4 left-0 right-0 text-center text-[11px] pointer-events-none"
+        style={{ color: 'rgba(30,30,40,0.3)' }}
+      >
+        © {new Date().getFullYear()} hjngk
+      </p>
     </main>
   );
 }

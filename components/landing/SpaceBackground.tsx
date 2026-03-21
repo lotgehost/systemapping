@@ -35,32 +35,61 @@ export default function SpaceBackground() {
           <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="white" opacity={s.opacity} />
         ))}
 
-        {/* Earth glow */}
-        <radialGradient id="earthGlow" cx="50%" cy="100%" r="50%">
-          <stop offset="0%" stopColor="#3b7dd8" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#3b7dd8" stopOpacity="0" />
-        </radialGradient>
-        <ellipse cx="720" cy="900" rx="500" ry="320" fill="url(#earthGlow)" />
+        <defs>
+          {/* Earth atmosphere glow */}
+          <radialGradient id="earthGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="70%" stopColor="#1a6fd4" stopOpacity="0" />
+            <stop offset="90%" stopColor="#4fa3e8" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#7ec8f8" stopOpacity="0" />
+          </radialGradient>
+          {/* Earth sphere shading */}
+          <radialGradient id="earthShade" cx="35%" cy="32%" r="65%">
+            <stop offset="0%" stopColor="#8ac8f0" stopOpacity="0.3" />
+            <stop offset="50%" stopColor="#1a5fb4" stopOpacity="0" />
+            <stop offset="100%" stopColor="#060d1f" stopOpacity="0.55" />
+          </radialGradient>
+          <clipPath id="earthClip">
+            <circle cx="720" cy="1020" r="440" />
+          </clipPath>
+        </defs>
 
-        {/* Earth base */}
-        <clipPath id="earthClip">
-          <circle cx="720" cy="1010" r="430" />
-        </clipPath>
-        <circle cx="720" cy="1010" r="430" fill="#2d6abf" />
+        {/* Atmosphere halo */}
+        <circle cx="720" cy="1020" r="458" fill="url(#earthGlow)" />
+
+        {/* Earth base ocean */}
+        <circle cx="720" cy="1020" r="440" fill="#1a5fb4" />
+
         <g clipPath="url(#earthClip)">
-          {/* Ocean highlight */}
-          <ellipse cx="620" cy="900" rx="260" ry="200" fill="#3b82c8" opacity="0.6" />
-          {/* Continent 1 - Europe/Africa-ish */}
-          <path d="M640,640 C660,630 690,628 710,640 C725,650 730,670 720,690 C710,710 695,720 680,715 C660,720 645,700 640,680 C635,660 635,650 640,640Z" fill="rgba(255,255,255,0.88)" />
-          {/* Continent 2 */}
-          <path d="M700,680 C720,672 745,675 758,688 C770,700 768,720 755,730 C742,740 722,738 710,728 C698,718 696,700 700,680Z" fill="rgba(200,220,180,0.7)" />
-          {/* Continent 3 */}
-          <path d="M580,700 C600,695 615,700 618,715 C620,730 610,740 595,738 C580,736 572,724 575,710Z" fill="rgba(255,255,255,0.75)" />
-          {/* Ice cap */}
-          <path d="M580,620 C620,608 680,610 730,618 C770,624 800,635 790,645 C770,658 720,655 680,650 C640,645 600,648 575,640Z" fill="rgba(255,255,255,0.92)" />
-          {/* Cloud streaks */}
-          <path d="M620,760 C650,755 700,752 740,758 C770,762 780,770 770,775 C750,780 700,778 660,774 C630,770 615,765 620,760Z" fill="rgba(255,255,255,0.6)" />
-          <path d="M680,800 C710,796 750,794 780,800 C800,805 805,812 792,816 C772,820 730,818 700,814 C678,810 668,805 680,800Z" fill="rgba(255,255,255,0.5)" />
+          {/* Deep ocean variation */}
+          <ellipse cx="580" cy="920" rx="280" ry="220" fill="#1e6bbf" opacity="0.7" />
+          <ellipse cx="860" cy="980" rx="200" ry="180" fill="#1560ae" opacity="0.5" />
+
+          {/* Eurasia */}
+          <path d="M560,640 C590,625 640,620 680,628 C720,636 755,640 780,650 C810,662 825,672 820,688 C815,702 800,710 778,715 C755,720 730,718 710,712 C690,706 672,708 655,718 C638,728 625,730 610,722 C595,714 585,700 580,685 C575,668 572,655 560,640Z" fill="#4a8f3f" />
+          {/* Africa */}
+          <path d="M630,720 C645,712 662,710 675,718 C690,728 695,745 692,762 C689,778 680,790 668,796 C655,802 640,798 632,788 C624,778 620,762 620,747 C620,733 622,726 630,720Z" fill="#5a9a44" />
+          {/* Americas */}
+          <path d="M480,660 C495,650 512,648 525,655 C538,662 545,675 542,690 C539,705 528,714 514,716 C500,718 488,710 482,698 C476,686 474,670 480,660Z" fill="#4a8f3f" />
+          <path d="M455,715 C468,708 480,710 488,720 C496,732 494,748 484,756 C474,764 460,760 453,750 C446,740 446,724 455,715Z" fill="#4a8f3f" />
+          {/* Australia */}
+          <path d="M860,780 C872,774 886,774 896,782 C906,790 908,804 902,814 C896,822 882,824 870,818 C858,812 854,798 860,780Z" fill="#5a9a44" />
+
+          {/* Antarctica ice */}
+          <path d="M530,980 C580,968 650,964 720,966 C790,968 860,972 920,982 C960,990 980,1002 970,1012 C955,1024 900,1022 840,1018 C780,1014 720,1014 660,1016 C600,1018 545,1016 518,1006 C505,1000 508,988 530,980Z" fill="rgba(220,235,255,0.92)" />
+
+          {/* North pole ice */}
+          <path d="M600,630 C635,618 685,614 730,618 C772,622 808,632 810,642 C812,652 782,658 745,658 C708,658 670,655 638,650 C610,645 592,640 600,630Z" fill="rgba(220,235,255,0.88)" />
+
+          {/* Cloud band 1 */}
+          <path d="M540,690 C575,683 630,680 680,685 C728,690 770,698 780,708 C788,716 775,722 748,724 C718,726 672,722 630,718 C588,714 555,710 542,702 C532,696 532,692 540,690Z" fill="rgba(255,255,255,0.55)" />
+          {/* Cloud band 2 */}
+          <path d="M620,760 C658,753 710,750 755,756 C795,762 820,772 818,782 C816,790 792,794 758,792 C722,790 680,786 645,782 C614,778 598,772 606,764 C610,760 616,758 620,760Z" fill="rgba(255,255,255,0.45)" />
+          {/* Cloud wisps */}
+          <path d="M760,720 C785,715 812,714 830,720 C845,726 848,734 838,738 C826,742 800,740 778,736 C758,732 748,724 760,720Z" fill="rgba(255,255,255,0.5)" />
+          <path d="M550,830 C578,824 610,822 636,828 C656,833 660,842 648,846 C633,850 605,848 580,844 C558,840 542,834 550,830Z" fill="rgba(255,255,255,0.4)" />
+
+          {/* Sphere shading overlay */}
+          <circle cx="720" cy="1020" r="440" fill="url(#earthShade)" />
         </g>
 
         {/* Moon terrain - back layer */}

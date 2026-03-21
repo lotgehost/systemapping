@@ -36,61 +36,89 @@ export default function SpaceBackground() {
         ))}
 
         <defs>
-          {/* Earth atmosphere glow */}
-          <radialGradient id="earthGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="70%" stopColor="#1a6fd4" stopOpacity="0" />
-            <stop offset="90%" stopColor="#4fa3e8" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#7ec8f8" stopOpacity="0" />
-          </radialGradient>
-          {/* Earth sphere shading */}
-          <radialGradient id="earthShade" cx="35%" cy="32%" r="65%">
-            <stop offset="0%" stopColor="#8ac8f0" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#1a5fb4" stopOpacity="0" />
-            <stop offset="100%" stopColor="#060d1f" stopOpacity="0.55" />
-          </radialGradient>
-          <clipPath id="earthClip">
-            <circle cx="720" cy="1040" r="440" />
-          </clipPath>
+          {/* Planet body clip paths */}
+          <clipPath id="pc1"><circle cx="130" cy="95" r="105" /></clipPath>
+          <clipPath id="pc2"><circle cx="1355" cy="25" r="115" /></clipPath>
+          <clipPath id="pc3"><circle cx="1185" cy="372" r="55" /></clipPath>
+          <clipPath id="pc4"><circle cx="1390" cy="840" r="128" /></clipPath>
+          <clipPath id="pc5"><circle cx="265" cy="858" r="68" /></clipPath>
+          <clipPath id="pc6"><circle cx="75" cy="688" r="44" /></clipPath>
+          {/* Ring front-half clip paths (below planet equator) */}
+          <clipPath id="rc3"><rect x="1090" y="372" width="190" height="60" /></clipPath>
+          <clipPath id="rc6"><rect x="5" y="688" width="140" height="50" /></clipPath>
         </defs>
 
-        {/* Atmosphere halo */}
-        <circle cx="720" cy="1040" r="460" fill="url(#earthGlow)" />
-
-        {/* Earth base ocean */}
-        <circle cx="720" cy="1040" r="440" fill="#1a5fb4" />
-
-        <g clipPath="url(#earthClip)">
-          {/* Deep ocean variation */}
-          <ellipse cx="580" cy="920" rx="280" ry="220" fill="#1e6bbf" opacity="0.7" />
-          <ellipse cx="860" cy="980" rx="200" ry="180" fill="#1560ae" opacity="0.5" />
-
-          {/* Eurasia */}
-          <path d="M650,640 C680,625 730,620 770,628 C810,636 845,640 870,650 C900,662 915,672 910,688 C905,702 890,710 868,715 C845,720 820,718 800,712 C780,706 762,708 745,718 C728,728 715,730 700,722 C685,714 675,700 670,685 C665,668 662,655 650,640Z" fill="#4a8f3f" />
-          {/* Africa */}
-          <path d="M720,720 C735,712 752,710 765,718 C780,728 785,745 782,762 C779,778 770,790 758,796 C745,802 730,798 722,788 C714,778 710,762 710,747 C710,733 712,726 720,720Z" fill="#5a9a44" />
-          {/* Americas */}
-          <path d="M530,665 C545,655 562,653 575,660 C588,667 595,680 592,695 C589,710 578,719 564,721 C550,723 538,715 532,703 C526,691 524,675 530,665Z" fill="#4a8f3f" />
-          <path d="M505,720 C518,713 530,715 538,725 C546,737 544,753 534,761 C524,769 510,765 503,755 C496,745 496,729 505,720Z" fill="#4a8f3f" />
-          {/* Australia */}
-          <path d="M920,780 C932,774 946,774 956,782 C966,790 968,804 962,814 C956,822 942,824 930,818 C918,812 914,798 920,780Z" fill="#5a9a44" />
-
-          {/* Antarctica ice */}
-          <path d="M560,980 C610,968 680,964 750,966 C820,968 890,972 950,982 C990,990 1010,1002 1000,1012 C985,1024 930,1022 870,1018 C810,1014 750,1014 690,1016 C630,1018 575,1016 548,1006 C535,1000 538,988 560,980Z" fill="rgba(220,235,255,0.92)" />
-
-          {/* North pole ice */}
-          <path d="M670,630 C705,618 755,614 800,618 C842,622 878,632 880,642 C882,652 852,658 815,658 C778,658 740,655 708,650 C680,645 662,640 670,630Z" fill="rgba(220,235,255,0.88)" />
-
-          {/* Cloud band 1 */}
-          <path d="M620,690 C655,683 710,680 760,685 C808,690 850,698 860,708 C868,716 855,722 828,724 C798,726 752,722 710,718 C668,714 635,710 622,702 C612,696 612,692 620,690Z" fill="rgba(255,255,255,0.55)" />
-          {/* Cloud band 2 */}
-          <path d="M700,760 C738,753 790,750 835,756 C875,762 900,772 898,782 C896,790 872,794 838,792 C802,790 760,786 725,782 C694,778 678,772 686,764 C690,760 696,758 700,760Z" fill="rgba(255,255,255,0.45)" />
-          {/* Cloud wisps */}
-          <path d="M840,720 C865,715 892,714 910,720 C925,726 928,734 918,738 C906,742 880,740 858,736 C838,732 828,724 840,720Z" fill="rgba(255,255,255,0.5)" />
-          <path d="M630,830 C658,824 690,822 716,828 C736,833 740,842 728,846 C713,850 685,848 660,844 C638,840 622,834 630,830Z" fill="rgba(255,255,255,0.4)" />
-
-          {/* Sphere shading overlay */}
-          <circle cx="720" cy="1040" r="440" fill="url(#earthShade)" />
+        {/* ── Planet 1: Orange Jupiter-like (top-left) ── */}
+        <circle cx="130" cy="95" r="105" fill="#E8923A" />
+        <g clipPath="url(#pc1)">
+          <rect x="20" y="22" width="220" height="17" fill="#C06818" opacity="0.65" rx="8" />
+          <rect x="20" y="46" width="220" height="12" fill="#FFBA58" opacity="0.5" rx="6" />
+          <rect x="20" y="65" width="220" height="22" fill="#C06818" opacity="0.62" rx="11" />
+          <rect x="20" y="95" width="220" height="13" fill="#FFBA58" opacity="0.5" rx="6" />
+          <rect x="20" y="115" width="220" height="19" fill="#C06818" opacity="0.6" rx="9" />
+          <rect x="20" y="141" width="220" height="12" fill="#FFBA58" opacity="0.45" rx="6" />
+          <ellipse cx="88" cy="50" rx="46" ry="30" fill="rgba(255,225,170,0.22)" />
         </g>
+
+        {/* ── Planet 2: Pink/purple striped (top-right) ── */}
+        <circle cx="1355" cy="25" r="115" fill="#C055A8" />
+        <g clipPath="url(#pc2)">
+          <rect x="1238" y="-50" width="234" height="20" fill="#903888" opacity="0.65" rx="10" />
+          <rect x="1238" y="-22" width="234" height="15" fill="#E080CC" opacity="0.5" rx="7" />
+          <rect x="1238" y="2" width="234" height="22" fill="#903888" opacity="0.62" rx="11" />
+          <rect x="1238" y="33" width="234" height="15" fill="#E080CC" opacity="0.5" rx="7" />
+          <rect x="1238" y="56" width="234" height="19" fill="#903888" opacity="0.6" rx="9" />
+          <rect x="1238" y="83" width="234" height="14" fill="#E080CC" opacity="0.45" rx="7" />
+          <ellipse cx="1302" cy="-14" rx="50" ry="32" fill="rgba(255,200,240,0.2)" />
+        </g>
+
+        {/* ── Planet 3: Small orange ringed Saturn (mid-right) ── */}
+        {/* Ring — back half (drawn first, behind planet) */}
+        <ellipse cx="1185" cy="390" rx="92" ry="17" fill="#C88C18" opacity="0.75" />
+        <ellipse cx="1185" cy="390" rx="80" ry="13" fill="#F0B838" opacity="0.5" />
+        {/* Planet body */}
+        <circle cx="1185" cy="372" r="55" fill="#F0B838" />
+        <g clipPath="url(#pc3)">
+          <ellipse cx="1185" cy="348" rx="55" ry="9" fill="#C88818" opacity="0.55" />
+          <ellipse cx="1185" cy="368" rx="55" ry="7" fill="#FFD060" opacity="0.45" />
+          <ellipse cx="1185" cy="388" rx="55" ry="9" fill="#C88818" opacity="0.55" />
+          <ellipse cx="1158" cy="350" rx="26" ry="17" fill="rgba(255,240,170,0.26)" />
+        </g>
+        {/* Ring — front half (below planet equator) */}
+        <ellipse cx="1185" cy="390" rx="92" ry="17" fill="#C88C18" opacity="0.75" clipPath="url(#rc3)" />
+        <ellipse cx="1185" cy="390" rx="80" ry="13" fill="#F0B838" opacity="0.5" clipPath="url(#rc3)" />
+
+        {/* ── Planet 4: Blue planet (bottom-right) ── */}
+        <circle cx="1390" cy="840" r="128" fill="#3870C0" />
+        <g clipPath="url(#pc4)">
+          <ellipse cx="1345" cy="770" rx="132" ry="52" fill="#5892E0" opacity="0.4" />
+          <ellipse cx="1415" cy="825" rx="115" ry="40" fill="#2658A0" opacity="0.45" />
+          <ellipse cx="1358" cy="876" rx="124" ry="36" fill="#5892E0" opacity="0.35" />
+          <ellipse cx="1350" cy="785" rx="44" ry="28" fill="rgba(150,205,255,0.22)" />
+        </g>
+
+        {/* ── Planet 5: Green striped (bottom-center-left) ── */}
+        <circle cx="265" cy="858" r="68" fill="#52BA42" />
+        <g clipPath="url(#pc5)">
+          <rect x="195" y="818" width="140" height="14" fill="#388828" opacity="0.7" rx="7" />
+          <rect x="195" y="839" width="140" height="11" fill="#74DC58" opacity="0.55" rx="5" />
+          <rect x="195" y="856" width="140" height="17" fill="#388828" opacity="0.65" rx="8" />
+          <rect x="195" y="879" width="140" height="11" fill="#74DC58" opacity="0.5" rx="5" />
+          <ellipse cx="232" cy="828" rx="32" ry="20" fill="rgba(198,255,175,0.2)" />
+        </g>
+
+        {/* ── Planet 6: Pink mini with ring (left) ── */}
+        {/* Ring back */}
+        <ellipse cx="75" cy="700" rx="70" ry="13" fill="#EE4A8C" opacity="0.7" />
+        <ellipse cx="75" cy="700" rx="60" ry="10" fill="#FF80C0" opacity="0.45" />
+        {/* Planet */}
+        <circle cx="75" cy="688" r="44" fill="#FF70B8" />
+        <g clipPath="url(#pc6)">
+          <ellipse cx="55" cy="672" rx="28" ry="17" fill="rgba(255,200,230,0.28)" />
+        </g>
+        {/* Ring front */}
+        <ellipse cx="75" cy="700" rx="70" ry="13" fill="#EE4A8C" opacity="0.7" clipPath="url(#rc6)" />
+        <ellipse cx="75" cy="700" rx="60" ry="10" fill="#FF80C0" opacity="0.45" clipPath="url(#rc6)" />
 
         {/* Moon terrain - back layer (warm grey, peaks lit) */}
         <path d="M0,755 C60,732 130,748 200,736 C280,722 360,742 440,730 C520,718 600,738 680,726 C760,714 840,734 920,722 C1000,710 1080,730 1160,718 C1240,706 1320,726 1380,716 L1440,712 L1440,900 L0,900Z" fill="#3a3630" />

@@ -31,7 +31,7 @@ export default function HomePage() {
 
       <div className="w-max mx-auto space-y-5 animate-fade-in">
         {/* Heading */}
-        <div className="space-y-1.5 px-4">
+        <div className="space-y-1.5">
           <h1
             className="text-[24px] leading-tight tracking-tight whitespace-nowrap"
             style={{

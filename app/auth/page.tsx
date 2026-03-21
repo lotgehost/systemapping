@@ -50,7 +50,7 @@ export default function AuthPage() {
     >
       <div className="w-max mx-auto space-y-5">
         {/* Title — always visible */}
-        <div className="space-y-1.5 px-4">
+        <div className="space-y-1.5">
           <h1
             className="text-[24px] leading-tight tracking-tight whitespace-nowrap"
             style={{
@@ -74,7 +74,7 @@ export default function AuthPage() {
         </div>
 
         {/* Auth form → fades out, ProblemInput fades in */}
-        <div className="relative px-4">
+        <div className="relative">
           {/* Auth form */}
           <div
             className="transition-all duration-500"

@@ -162,7 +162,7 @@ export default function AuthPage() {
         className="absolute bottom-4 left-0 right-0 text-center text-[11px]"
         style={{ color: 'rgba(255,255,255,0.2)' }}
       >
-        © {new Date().getFullYear()} hjngk
+        © {new Date().getFullYear()} Magrathea
       </p>
     </main>
   );

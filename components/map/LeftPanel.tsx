@@ -175,7 +175,7 @@ export default function LeftPanel({ readOnly = false, onShare, shareUrl }: LeftP
       {!readOnly && (
         <div className="px-5 py-3 flex-shrink-0">
           <p className="text-[11px] text-center w-full" style={{ color: 'rgba(30,30,40,0.3)' }}>
-            © {new Date().getFullYear()} hjngk
+            © {new Date().getFullYear()} Magrathea
           </p>
         </div>
       )}
